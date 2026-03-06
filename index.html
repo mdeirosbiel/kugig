@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prova — Anatomia Patológica</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f2eb;--page:#fdfcf8;--ink:#1a1712;--ink2:#3d3830;--muted:#7a7265;--rule:#d4cec3;--accent:#7a3a1e;--accent2:#2a4a6e;--correct:#2d5a3d;--correct-bg:#eef5f0;--wrong:#7a2525;--wrong-bg:#fdf0f0;--opt-hover:#f0ece4;--opt-sel:#e8e0d4;--case-bg:#f0ede5;--case-border:#c8bfb0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--bg);color:var(--ink);font-size:1.05rem;line-height:1.7}
+.page{max-width:860px;margin:0 auto;background:var(--page);min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.08)}
+header{border-bottom:2px solid var(--ink);padding:2.8rem 3.5rem 2rem}
+.hi{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+h1{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;line-height:1.15;margin-bottom:.3rem}
+.hs{font-style:italic;color:var(--muted);font-size:1rem;margin-bottom:1.6rem}
+.hm{display:flex;gap:2.5rem;font-size:.85rem;color:var(--ink2);border-top:1px solid var(--rule);padding-top:1rem}
+.hm span{color:var(--muted);margin-right:.3rem}
+nav{background:var(--ink);padding:.7rem 3.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:100}
+.nb{background:none;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.6);font-family:'Crimson Pro',serif;font-size:.82rem;letter-spacing:.08em;padding:.3rem .9rem;cursor:pointer;transition:all .18s}
+.nb:hover,.nb.active{border-color:rgba(255,255,255,.8);color:#fff}
+.sp{margin-left:auto;font-family:'Crimson Pro',serif;font-size:.82rem;color:rgba(255,255,255,.6)}
+.sp strong{color:#fff}
+main{padding:0 3.5rem 5rem}
+.sh{padding:2.5rem 0 1.2rem;border-bottom:1px solid var(--rule);margin-bottom:2rem}
+.st{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.stt{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600}
+.sn{font-style:italic;font-size:.88rem;color:var(--muted);margin-top:.2rem}
+.qb{margin-bottom:2.8rem;padding-bottom:2.8rem;border-bottom:1px solid var(--rule)}
+.qb:last-child{border-bottom:none}
+.ql{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.cs{background:var(--case-bg);border-left:3px solid var(--case-border);padding:1.2rem 1.5rem;margin-bottom:1.2rem;font-size:.97rem;line-height:1.75;color:var(--ink2)}
+.cs p+p{margin-top:.5rem}
+.af{padding:.6rem 0 .8rem 1rem;font-size:.97rem;line-height:1.8;color:var(--ink2);border-left:2px solid var(--rule);margin-bottom:1.1rem}
+.af p{margin:0}
+.qc{font-weight:600;font-size:.95rem;color:var(--ink);margin-bottom:.9rem}
+.opts{display:flex;flex-direction:column;gap:.45rem}
+.opt{display:flex;align-items:flex-start;gap:.9rem;padding:.65rem 1rem;border:1px solid var(--rule);background:var(--page);cursor:pointer;transition:background .15s,border-color .15s;user-select:none}
+.opt:hover{background:var(--opt-hover);border-color:var(--case-border)}
+.opt.selected{background:var(--opt-sel);border-color:#a09585}
+.opt.correct{background:var(--correct-bg)!important;border-color:var(--correct)!important}
+.opt.wrong{background:var(--wrong-bg)!important;border-color:var(--wrong)!important}
+.ok{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--muted);flex-shrink:0;width:1.1rem;padding-top:.06rem}
+.opt.correct .ok{color:var(--correct)}.opt.wrong .ok{color:var(--wrong)}
+.ot{font-size:.96rem;line-height:1.55;color:var(--ink2)}
+.opt.selected .ot,.opt.correct .ot,.opt.wrong .ot{color:var(--ink)}
+.cb{margin-top:.8rem;background:none;border:1px solid var(--rule);color:var(--muted);font-family:'Crimson Pro',serif;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem 1rem;cursor:pointer;transition:all .18s}
+.cb:hover{border-color:var(--accent);color:var(--accent)}
+.cb:disabled{opacity:.3;cursor:default}
+.fb{display:none;margin-top:.75rem;padding:.75rem 1rem;font-size:.9rem;line-height:1.6;border-left:3px solid}
+.fb.show{display:block}
+.fb.fc{border-color:var(--correct);background:var(--correct-bg);color:var(--correct)}
+.fb.fw{border-color:var(--wrong);background:var(--wrong-bg);color:var(--wrong)}
+.db{margin-bottom:2.8rem;padding-bottom:2.8rem;border-bottom:1px solid var(--rule)}
+.db:last-child{border-bottom:none}
+.dq{padding:.4rem 0 .8rem 1.2rem;font-size:.97rem;line-height:1.85;color:var(--ink2);border-left:2px solid var(--rule);margin-bottom:1rem}
+.dq p{margin:0}
+.da{width:100%;min-height:130px;background:var(--bg);border:1px solid var(--rule);color:var(--ink);font-family:'Crimson Pro',serif;font-size:.97rem;line-height:1.65;padding:.8rem 1rem;resize:vertical;transition:border-color .18s;margin-bottom:.7rem}
+.da:focus{outline:none;border-color:var(--ink2)}
+.da::placeholder{color:var(--muted);font-style:italic}
+.gb{background:none;border:1px solid var(--rule);color:var(--muted);font-family:'Crimson Pro',serif;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem 1rem;cursor:pointer;transition:all .18s}
+.gb:hover{border-color:var(--accent2);color:var(--accent2)}
+.gx{display:none;margin-top:.8rem;padding:1rem 1.2rem;background:#f0f4f8;border-left:3px solid var(--accent2);font-size:.93rem;line-height:1.7;color:var(--ink2)}
+.gx.show{display:block}
+.gx strong{display:block;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:.5rem}
+.gx p+p{margin-top:.5rem}
+.pb{height:3px;background:var(--rule);position:sticky;top:38px;z-index:99}
+.pf{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.orn{text-align:center;color:var(--rule);font-size:1.5rem;letter-spacing:.4em;padding:1.5rem 0}
+@media(max-width:640px){main,header,nav{padding-left:1.4rem;padding-right:1.4rem}}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="hi">Anatomia Patológica · 2026</div>
+  <h1>Prova Teórica</h1>
+  <p class="hs">Degenerações Celulares · Adaptações · Hipóxia · Colesterol · Doenças Vasculares</p>
+  <div class="hm">
+    <div><span>Parte I —</span> 50 Questões Objetivas</div>
+    <div><span>Parte II —</span> 10 Questões Dissertativas</div>
+  </div>
+</header>
+<div class="pb"><div class="pf" id="prog"></div></div>
+<nav>
+  <button class="nb active" onclick="show('all',this)">Todas</button>
+  <button class="nb" onclick="show('obj',this)">Objetivas</button>
+  <button class="nb" onclick="show('dis',this)">Dissertativas</button>
+  <div class="sp">Acertos: <strong id="sc">0</strong> / <strong id="tt">0</strong></div>
+</nav>
+<main>
+
+<!-- ══════ PARTE I ══════ -->
+<div id="so">
+<div class="sh"><div class="st">Parte I</div><div class="stt">Questões Objetivas</div><div class="sn">Assinale a única alternativa correta em cada questão.</div></div>
+
+<!-- Q1 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 1</div>
+<div class="cs">Paciente do sexo feminino, 48 anos, obesa, sedentária, pré-diabética, admitida com icterícia e dor abdominal. Ultrassonografia: fígado com ecogenicidade difusamente aumentada. Exames: AST e ALT muito acima do valor de referência, triglicérides e colesterol muito aumentados, glicemia elevada. Nega etilismo.</div>
+<div class="af">
+<p>I — O diagnóstico mais provável é Doença Hepática Gordurosa Não Alcoólica (DHGNA), dado o perfil metabólico e a ausência de etilismo.</p>
+<p>II — A elevação de AST e ALT indica extravasamento dessas enzimas intracelulares por necrose de hepatócitos.</p>
+<p>III — O controle do diabetes e da dislipidemia é essencial para a recuperação hepática, pois a resistência insulínica é o motor da esteatose.</p>
+</div>
+<div class="qc">Assinale a alternativa que contém as afirmativas corretas:</div>
+<div class="opts" id="o1">
+  <div class="opt" onclick="sel(1,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois as transaminases normais excluem necrose hepatocitária e o tratamento metabólico é irrelevante para a lesão hepática.</span></div>
+  <div class="opt" onclick="sel(1,'b')"><span class="ok">B.</span><span class="ot">I e II apenas, pois controlar o diabetes não influencia a esteatose — a lesão hepática gordurosa é independente da resistência insulínica.</span></div>
+  <div class="opt" onclick="sel(1,'c')"><span class="ok">C.</span><span class="ot">II e III apenas, pois o diagnóstico de DHGNA exige biópsia confirmatória e não pode ser sugerido apenas por dados clínicos e ultrassom.</span></div>
+  <div class="opt" onclick="sel(1,'d')"><span class="ok">D.</span><span class="ot">I, II e III, pois o perfil metabólico define o diagnóstico, as transaminases confirmam necrose hepatocitária e o controle metabólico é o pilar do tratamento.</span></div>
+</div>
+<div class="fb" id="f1"></div>
+<button class="cb" id="b1" onclick="chk(1)">Verificar</button>
+</div>
+
+<!-- Q2 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 2</div>
+<div class="cs">Homem de 49 anos, obeso, diabético sem tratamento, hipertenso. Biópsia de fígado: vacúolos lipídicos grandes nos hepatócitos deslocando o núcleo para a periferia, inflamação estromal com células mononucleares e material amorfo hialino intracitoplasmático.</div>
+<div class="qc">O diagnóstico histológico e o achado que o define são:</div>
+<div class="opts" id="o2">
+  <div class="opt" onclick="sel(2,'a')"><span class="ok">A.</span><span class="ot">Lipidose hepática — macrófagos com colesterol nos sinusoides; o deslocamento nuclear e os corpúsculos hialinos são achados secundários sem valor diagnóstico.</span></div>
+  <div class="opt" onclick="sel(2,'b')"><span class="ok">B.</span><span class="ot">Hepatite viral crônica — a inflamação estromal mononuclear é o achado-chave; os vacúolos lipídicos são artefato de fixação e o material hialino é depósito biliar.</span></div>
+  <div class="opt" onclick="sel(2,'c')"><span class="ok">C.</span><span class="ot">Esteato-hepatite não alcoólica (NASH) — esteatose macrovacuolar com deslocamento nuclear, inflamação estromal e corpúsculos de Mallory (material amorfo hialino = citoqueratina desnaturada).</span></div>
+  <div class="opt" onclick="sel(2,'d')"><span class="ok">D.</span><span class="ot">Degeneração hidrópica hepática — vacúolos de água nos hepatócitos; a inflamação estromal indica progressão para necrose de coagulação em curso.</span></div>
+</div>
+<div class="fb" id="f2"></div>
+<button class="cb" id="b2" onclick="chk(2)">Verificar</button>
+</div>
+
+<!-- Q3 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 3</div>
+<div class="cs">Homem de 30 anos morre subitamente após dor precordial ao esforço. Necropsia: extensa necrose anterosseptal, duas cicatrizes fibróticas antigas e placas coronarianas volumosas com capa fibrosa acentuadamente afilada sobre núcleo lipídico extenso. Troponina e CKMB muito elevadas. Triglicérides gravíssimos.</div>
+<div class="qc">A sequência fisiopatológica que levou à necrose dos cardiomiócitos é:</div>
+<div class="opts" id="o3">
+  <div class="opt" onclick="sel(3,'a')"><span class="ok">A.</span><span class="ot">Ruptura da capa fibrosa → exposição do núcleo trombogênico → trombo agudo → oclusão coronariana → hipóxia → queda de ATP → falha da bomba Na+/K+ → degeneração hidrópica → ruptura de organelas → necrose de coagulação.</span></div>
+  <div class="opt" onclick="sel(3,'b')"><span class="ok">B.</span><span class="ot">Vasoespasmo coronariano por hipertrigliceridemia → oclusão funcional transitória → necrose de liquefação miocárdica → calcificação distrófica → ruptura ventricular.</span></div>
+  <div class="opt" onclick="sel(3,'c')"><span class="ok">C.</span><span class="ot">Miocardite viral aguda por reativação de vírus latente → apoptose maciça de cardiomiócitos → fibrose imediata → ruptura de placa secundária ao estresse mecânico.</span></div>
+  <div class="opt" onclick="sel(3,'d')"><span class="ok">D.</span><span class="ot">Embolia pulmonar maciça por hipertrigliceridemia → hipóxia sistêmica → apoptose dos cardiomiócitos → necrose de coagulação em múltiplos territórios simultâneos.</span></div>
+</div>
+<div class="fb" id="f3"></div>
+<button class="cb" id="b3" onclick="chk(3)">Verificar</button>
+</div>
+
+<!-- Q4 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 4</div>
+<div class="cs">Homem de 34 anos, diabético tipo 2, com pápulas e nódulos amarelados no abdome, dorso e glúteos há 25 dias. Triglicérides gravíssimos, HDL muito baixo, colesterol total muito aumentado. Biópsia: macrófagos com citoplasma espumoso repleto de vacúolos lipídicos no tecido conjuntivo dérmico.</div>
+<div class="af">
+<p>I — O achado biopsiado representa macrófagos xantomizados — o mesmo processo que ocorre na parede vascular na aterosclerose, mas agora visível na derme.</p>
+<p>II — O diagnóstico é xantomatose eruptiva, decorrente do acúmulo de lipídios em macrófagos dérmicos incapazes de degradar o excesso circulante.</p>
+<p>III — O controle glicêmico não interfere nas lesões cutâneas, pois o DM2 não tem relação fisiopatológica com a hipertrigliceridemia.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o4">
+  <div class="opt" onclick="sel(4,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois o diagnóstico de xantomatose exige confirmação sorológica e o controle glicêmico é um fator auxiliar sem impacto direto na resolução.</span></div>
+  <div class="opt" onclick="sel(4,'b')"><span class="ok">B.</span><span class="ot">I e II, pois o macrófago xantomizado na derme é o mesmo processo da placa aterosclerótica e o diagnóstico clínico-histológico é xantomatose eruptiva.</span></div>
+  <div class="opt" onclick="sel(4,'c')"><span class="ok">C.</span><span class="ot">II e III, pois o diagnóstico é correto, mas o DM2 é uma comorbidade independente que não influencia o metabolismo lipídico nem a hipertrigliceridemia.</span></div>
+  <div class="opt" onclick="sel(4,'d')"><span class="ok">D.</span><span class="ot">I, II e III, pois todas as afirmativas estão corretas incluindo a independência entre DM2 e hipertrigliceridemia.</span></div>
+</div>
+<div class="fb" id="f4"></div>
+<button class="cb" id="b4" onclick="chk(4)">Verificar</button>
+</div>
+
+<!-- Q5 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 5</div>
+<div class="cs">Aula prática: lâmina de músculo cardíaco de paciente hipertenso crônico. Cardiomiócitos com aumento expressivo de volume individual, núcleos proeminentes e ausência de fibrose. Segunda lâmina do mesmo paciente, anos depois: intensa fibrose intersticial.</div>
+<div class="af">
+<p>I — A primeira lâmina representa hipertrofia patológica do miocárdio — adaptação à sobrecarga pressórica crônica, ainda funcionalmente preservada.</p>
+<p>II — Cardiomiócitos são células permanentes e respondem ao estresse por hipertrofia (aumento de volume), não por hiperplasia (aumento de número).</p>
+<p>III — A fibrose intersticial da segunda lâmina é irreversível: o colágeno substituiu cardiomiócitos permanentes que não se regeneram.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o5">
+  <div class="opt" onclick="sel(5,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois cardiomiócitos têm capacidade de hiperplasia moderada e a fibrose intersticial pode ser parcialmente revertida com controle pressórico.</span></div>
+  <div class="opt" onclick="sel(5,'b')"><span class="ok">B.</span><span class="ot">I e II apenas, pois a fibrose miocárdica, embora extensa, pode regredir com tratamento anti-hipertensivo intensivo e células-tronco.</span></div>
+  <div class="opt" onclick="sel(5,'c')"><span class="ok">C.</span><span class="ot">II e III apenas, pois a hipertrofia cardíaca por hipertensão é um achado normal e não constitui adaptação patológica.</span></div>
+  <div class="opt" onclick="sel(5,'d')"><span class="ok">D.</span><span class="ot">I, II e III, pois a hipertrofia concêntrica é adaptação patológica, cardiomiócitos são permanentes e a fibrose cicatricial miocárdica é irreversível.</span></div>
+</div>
+<div class="fb" id="f5"></div>
+<button class="cb" id="b5" onclick="chk(5)">Verificar</button>
+</div>
+
+<!-- Q6 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 6</div>
+<div class="cs">Paciente de 55 anos, hipertenso não tratado. Ecocardiograma inicial: paredes do ventrículo esquerdo muito espessadas e câmara ventricular reduzida. Dois anos depois, após descompensação cardíaca: câmaras dilatadas com paredes proporcionalmente menos espessadas.</div>
+<div class="qc">A evolução ecocardiográfica descreve, respectivamente:</div>
+<div class="opts" id="o6">
+  <div class="opt" onclick="sel(6,'a')"><span class="ok">A.</span><span class="ot">Hipertrofia excêntrica progredindo para concêntrica — a câmara primeiro dilata (sobrecarga de volume) e depois as paredes espessam para compensar a pressão adicional.</span></div>
+  <div class="opt" onclick="sel(6,'b')"><span class="ok">B.</span><span class="ot">Hiperplasia de cardiomiócitos seguida de atrofia por sobrecarga — o aumento de células espessa as paredes e a dilatação posterior reflete morte celular maciça.</span></div>
+  <div class="opt" onclick="sel(6,'c')"><span class="ok">C.</span><span class="ot">Hipertrofia concêntrica (sobrecarga pressórica, sarcômeros em paralelo, câmara reduzida) progredindo para hipertrofia excêntrica (sarcômeros em série, câmaras dilatadas) com disfunção contrátil.</span></div>
+  <div class="opt" onclick="sel(6,'d')"><span class="ok">D.</span><span class="ot">Metaplasia miocárdica para músculo liso seguida de fibrose concêntrica — o estresse pressórico induz diferenciação celular anômala com posterior degeneração.</span></div>
+</div>
+<div class="fb" id="f6"></div>
+<button class="cb" id="b6" onclick="chk(6)">Verificar</button>
+</div>
+
+<!-- Q7 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 7</div>
+<div class="cs">Paciente com insuficiência renal crônica avançada em hemodiálise apresenta anemia grave. O nefrologista explica que a anemia tem origem diretamente na disfunção renal e terá consequências celulares nos órgãos-alvo se não corrigida.</div>
+<div class="qc">A cadeia fisiopatológica correta que conecta a insuficiência renal à lesão celular nos órgãos-alvo é:</div>
+<div class="opts" id="o7">
+  <div class="opt" onclick="sel(7,'a')"><span class="ok">A.</span><span class="ot">Rim doente → menos eritropoetina → medula produz menos hemácias → anemia → menor transporte de O2 → hipóxia tecidual → queda de ATP → falha da bomba Na+/K+ → degeneração hidrópica nos órgãos-alvo.</span></div>
+  <div class="opt" onclick="sel(7,'b')"><span class="ok">B.</span><span class="ot">Rim doente → excesso de eritropoetina → policitemia compensatória → hiperviscosidade sanguínea → isquemia por estase → degeneração hidrópica por hipóxia de baixo fluxo.</span></div>
+  <div class="opt" onclick="sel(7,'c')"><span class="ok">C.</span><span class="ot">Rim doente → retenção de ureia → ureia inibe diretamente a cadeia respiratória mitocondrial → queda de ATP → necrose de coagulação sistêmica difusa.</span></div>
+  <div class="opt" onclick="sel(7,'d')"><span class="ok">D.</span><span class="ot">Rim doente → hiperfosfatemia → calcificação distrófica dos capilares → oclusão da microcirculação → isquemia → necrose de liquefação dos órgãos-alvo.</span></div>
+</div>
+<div class="fb" id="f7"></div>
+<button class="cb" id="b7" onclick="chk(7)">Verificar</button>
+</div>
+
+<!-- Q8 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 8</div>
+<div class="cs">Atleta de alto rendimento em treinamento em altitude elevada apresenta hemograma com contagem de hemácias e hematócrito acima dos valores habituais de nível do mar. O atleta está assintomático e bem adaptado ao esforço.</div>
+<div class="qc">O mecanismo fisiológico responsável por esse resultado hematológico é:</div>
+<div class="opts" id="o8">
+  <div class="opt" onclick="sel(8,'a')"><span class="ok">A.</span><span class="ot">Hipertrofia das hemácias individuais por estímulo hipóxico — cada hemácia aumenta seu volume para transportar mais oxigênio, elevando o hematócrito sem alteração no número total de células.</span></div>
+  <div class="opt" onclick="sel(8,'b')"><span class="ok">B.</span><span class="ot">Menor pressão de O2 na altitude → rins detectam hipóxia relativa → liberam eritropoetina → medula óssea estimulada → hiperplasia de eritrócitos → mais hemácias circulantes → maior transporte de O2.</span></div>
+  <div class="opt" onclick="sel(8,'c')"><span class="ok">C.</span><span class="ot">Desidratação pelo esforço físico em altitude seca provoca hemoconcentração, elevando artificialmente hematócrito e contagem de hemácias sem aumento real de produção.</span></div>
+  <div class="opt" onclick="sel(8,'d')"><span class="ok">D.</span><span class="ot">Metaplasia da medula óssea amarela em medula vermelha pelo frio da altitude, ampliando o compartimento eritroide e aumentando a produção independente de eritropoetina.</span></div>
+</div>
+<div class="fb" id="f8"></div>
+<button class="cb" id="b8" onclick="chk(8)">Verificar</button>
+</div>
+
+<!-- Q9 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 9</div>
+<div class="cs">Biópsia hepática de controle de paciente ressuscitada após choque hemorrágico grave: hepatócitos com citoplasma claro e expandido, múltiplos vacúolos pequenos sem deslocamento nuclear. Função hepática em normalização uma semana após a ressuscitação.</div>
+<div class="af">
+<p>I — O achado histológico é compatível com degeneração hidrópica, causada pela queda de ATP durante o choque com falha da bomba Na+/K+ e acúmulo de água intracelular.</p>
+<p>II — A normalização funcional confirma que a degeneração hidrópica é reversível quando o ATP é restaurado antes da ruptura de organelas.</p>
+<p>III — Se o choque tivesse persistido, a degeneração hidrópica teria progredido para necrose com ruptura irreversível das membranas celulares.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o9">
+  <div class="opt" onclick="sel(9,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois a degeneração hidrópica é sempre irreversível — a normalização funcional indica que os hepatócitos afetados foram substituídos por regeneração hepática.</span></div>
+  <div class="opt" onclick="sel(9,'b')"><span class="ok">B.</span><span class="ot">I e III apenas, pois a reversibilidade da degeneração hidrópica depende exclusivamente do pH intracelular, não da restauração do ATP.</span></div>
+  <div class="opt" onclick="sel(9,'c')"><span class="ok">C.</span><span class="ot">II e III apenas, pois o achado histológico descrito corresponde a esteatose microvacuolar, não à degeneração hidrópica que exige vacúolos com deslocamento nuclear.</span></div>
+  <div class="opt" onclick="sel(9,'d')"><span class="ok">D.</span><span class="ot">I, II e III, pois o achado é degeneração hidrópica, ela é reversível com restauração do ATP antes da ruptura de organelas e irreversível se o insulto persistir.</span></div>
+</div>
+<div class="fb" id="f9"></div>
+<button class="cb" id="b9" onclick="chk(9)">Verificar</button>
+</div>
+
+<!-- Q10 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 10</div>
+<div class="cs">O professor afirma em aula: "Quando a gente olha o sódio e o potássio sanguíneo, conseguimos ter um espelho do que ocorre no compartimento intracelular." Um estudante questiona por que isso é possível.</div>
+<div class="qc">A resposta correta para o estudante é:</div>
+<div class="opts" id="o10">
+  <div class="opt" onclick="sel(10,'a')"><span class="ok">A.</span><span class="ot">Porque sódio e potássio plasmáticos são produzidos pelo fígado e refletem diretamente a síntese de eletrólitos intracelulares — qualquer alteração hepática modifica ambos os compartimentos simultaneamente.</span></div>
+  <div class="opt" onclick="sel(10,'b')"><span class="ok">B.</span><span class="ot">Porque sódio sérico é sempre igual ao intracelular — a bomba Na+/K+ equiibra ativamente as concentrações entre os dois compartimentos para manter a isotonicidade celular.</span></div>
+  <div class="opt" onclick="sel(10,'c')"><span class="ok">C.</span><span class="ot">Porque a bomba Na+/K+-ATPase mantém gradientes opostos entre os compartimentos — distúrbios séricos (hiponatremia, hipercalemia) sinalizam disfunção da bomba e risco de degeneração hidrópica por falha de ATP.</span></div>
+  <div class="opt" onclick="sel(10,'d')"><span class="ok">D.</span><span class="ot">Porque os eletrólitos séricos atravessam livremente todas as membranas por difusão simples, tornando o plasma um reflexo passivo e exato do conteúdo intracelular sem necessidade de transporte ativo.</span></div>
+</div>
+<div class="fb" id="f10"></div>
+<button class="cb" id="b10" onclick="chk(10)">Verificar</button>
+</div>
+
+<!-- Q11 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 11</div>
+<div class="cs">Paciente de 44 anos com hipercolesterolemia grave sem tratamento apresenta depósitos amarelados em tendões e pálpebras. Biópsia: macrófagos com citoplasma repleto de inclusões lipídicas — células espumosas.</div>
+<div class="qc">O mecanismo correto de formação desses depósitos (xantomas) é:</div>
+<div class="opts" id="o11">
+  <div class="opt" onclick="sel(11,'a')"><span class="ok">A.</span><span class="ot">LDL em excesso é fagocitado por macrófagos → reconhecido como antígeno → não degradado → permanece como inclusão intracelular → macrófago xantomizado → acúmulo tecidual visível = xantoma.</span></div>
+  <div class="opt" onclick="sel(11,'b')"><span class="ok">B.</span><span class="ot">Colesterol precipita diretamente nos tecidos por sobressaturação sérica, sem participação celular — os macrófagos são recrutados secondariamente para fagocitar o depósito extracelular preexistente.</span></div>
+  <div class="opt" onclick="sel(11,'c')"><span class="ok">C.</span><span class="ot">Triglicérides se depositam nos fibroblastos tendíneos por transporte direto mediado pela albumina — a hipertrigliceridemia, não a hipercolesterolemia, é o mecanismo causal dos xantomas.</span></div>
+  <div class="opt" onclick="sel(11,'d')"><span class="ok">D.</span><span class="ot">Xantomas são calcificações distróficas de LDL oxidado que precipitou no colágeno tendíneo — o achado biopsiado de macrófagos com vacúolos é artefato da técnica de congelamento.</span></div>
+</div>
+<div class="fb" id="f11"></div>
+<button class="cb" id="b11" onclick="chk(11)">Verificar</button>
+</div>
+
+<!-- Q12 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 12</div>
+<div class="cs">Em autópsia, patologista identifica na coronária: macrófagos espumosos, tecido fibroso denso, material granular basofílico e capa fibrosa delgada sobre extenso núcleo lipídico. O cardiologista denomina essa placa de "vulnerável".</div>
+<div class="qc">A placa é vulnerável porque:</div>
+<div class="opts" id="o12">
+  <div class="opt" onclick="sel(12,'a')"><span class="ok">A.</span><span class="ot">O material basofílico (cálcio) a fragiliza mecanicamente, favorecendo embolização de fragmentos calcificados para a microcirculação coronariana distal.</span></div>
+  <div class="opt" onclick="sel(12,'b')"><span class="ok">B.</span><span class="ot">O núcleo lipídico extenso comprime a capa fibrosa externamente, reduzindo progressivamente o lúmen até oclusão total sem evento agudo de ruptura.</span></div>
+  <div class="opt" onclick="sel(12,'c')"><span class="ok">C.</span><span class="ot">Os macrófagos espumosos vivos secretam vasoconstritores que causam espasmo coronariano severo, ocluindo a artéria funcionalmente mesmo sem trombo.</span></div>
+  <div class="opt" onclick="sel(12,'d')"><span class="ok">D.</span><span class="ot">A capa fibrosa delgada pode romper ao esforço → núcleo lipídico trombogênico exposto ao sangue → ativação da coagulação → trombo agudo → oclusão coronariana → infarto fulminante.</span></div>
+</div>
+<div class="fb" id="f12"></div>
+<button class="cb" id="b12" onclick="chk(12)">Verificar</button>
+</div>
+
+<!-- Q13 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 13</div>
+<div class="cs">Biópsia de controle semanas após infarto do miocárdio revela substituição completa da área isquêmica por tecido conjuntivo denso, avascular, sem células musculares.</div>
+<div class="af">
+<p>I — O achado representa fibrose cicatricial: cardiomiócitos mortos por necrose de coagulação foram substituídos por colágeno, pois são células permanentes sem capacidade de regeneração.</p>
+<p>II — Com o tempo, a fibrose cicatricial miocárdica é progressivamente substituída por novos cardiomiócitos à medida que o organismo se recupera da lesão.</p>
+<p>III — O miocárdio viável adjacente à área de fibrose pode sofrer hipertrofia compensatória para suprir parcialmente a perda funcional.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o13">
+  <div class="opt" onclick="sel(13,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois o miocárdio adjacente não hipertrofia — ele também sofre fibrose secundária à sobrecarga imposta pela área infartada.</span></div>
+  <div class="opt" onclick="sel(13,'b')"><span class="ok">B.</span><span class="ot">I e II, pois a fibrose inicial é substituída por cardiomiócitos regenerados e o miocárdio adjacente também participa da hipertrofia compensatória.</span></div>
+  <div class="opt" onclick="sel(13,'c')"><span class="ok">C.</span><span class="ot">I e III, pois a fibrose cicatricial miocárdica é permanente e o miocárdio remanescente pode hipertrofiar como compensação funcional.</span></div>
+  <div class="opt" onclick="sel(13,'d')"><span class="ok">D.</span><span class="ot">I, II e III, pois todas as afirmativas são corretas incluindo a substituição gradual da fibrose por cardiomiócitos regenerados ao longo de meses.</span></div>
+</div>
+<div class="fb" id="f13"></div>
+<button class="cb" id="b13" onclick="chk(13)">Verificar</button>
+</div>
+
+<!-- Q14 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 14</div>
+<div class="cs">Ultrassonografia mostra fígado de paciente obesa, diabética e dislipidêmica com ecogenicidade difusamente aumentada, em contraste com fígado normal de aspecto homogêneo de outra paciente.</div>
+<div class="qc">O que o aumento difuso de ecogenicidade hepática indica e como se correlaciona com o quadro metabólico?</div>
+<div class="opts" id="o14">
+  <div class="opt" onclick="sel(14,'a')"><span class="ok">A.</span><span class="ot">Indica calcificação metastática hepática por hipercalcemia secundária à obesidade mórbida — o excesso de tecido adiposo produz paratormônio ectópico que eleva o cálcio sérico.</span></div>
+  <div class="opt" onclick="sel(14,'b')"><span class="ok">B.</span><span class="ot">Indica acúmulo de gordura nos hepatócitos (esteatose hepática). Correlaciona-se com resistência insulínica da obesidade e DM2, que aumentam o aporte de ácidos graxos ao fígado e reduzem a exportação como VLDL.</span></div>
+  <div class="opt" onclick="sel(14,'c')"><span class="ok">C.</span><span class="ot">Indica fibrose hepática avançada por hepatite viral crônica facilitada pelo estado de imunossupressão relativa da obesidade e do diabetes não controlado.</span></div>
+  <div class="opt" onclick="sel(14,'d')"><span class="ok">D.</span><span class="ot">Indica degeneração hidrópica difusa: a hiperglicemia crônica gera hiperosmolaridade que força entrada de água nos hepatócitos, tornando o parênquima mais ecogênico.</span></div>
+</div>
+<div class="fb" id="f14"></div>
+<button class="cb" id="b14" onclick="chk(14)">Verificar</button>
+</div>
+
+<!-- Q15 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 15</div>
+<div class="cs">Endoscopia de paciente com refluxo gastroesofágico grave e crônico não tratado revela substituição do epitélio escamoso do esôfago distal por epitélio colunar com células caliciformes — esôfago de Barrett. O endoscopista suspeita de lesão pré-neoplásica.</div>
+<div class="qc">O achado endoscópico é classificado como:</div>
+<div class="opts" id="o15">
+  <div class="opt" onclick="sel(15,'a')"><span class="ok">A.</span><span class="ot">Metaplasia — substituição de um tipo celular maduro (escamoso) por outro maduro (colunar) em resposta ao estresse crônico pelo ácido. Pode progredir para displasia e neoplasia se o estímulo persistir.</span></div>
+  <div class="opt" onclick="sel(15,'b')"><span class="ok">B.</span><span class="ot">Hiperplasia do epitélio esofágico — o epitélio escamoso prolifera em excesso sem mudar de tipo celular, formando camadas extras que macroscopicamente simulam um epitélio diferente.</span></div>
+  <div class="opt" onclick="sel(15,'c')"><span class="ok">C.</span><span class="ot">Displasia moderada — as células escamosas perderam diferenciação e apresentam atipias nucleares sem substituição de tipo celular, com progressão direta para carcinoma in situ.</span></div>
+  <div class="opt" onclick="sel(15,'d')"><span class="ok">D.</span><span class="ot">Neoplasia intraepitelial de alto grau — a substituição celular observada já representa transformação maligna estabelecida que requer esofagectomia imediata.</span></div>
+</div>
+<div class="fb" id="f15"></div>
+<button class="cb" id="b15" onclick="chk(15)">Verificar</button>
+</div>
+
+<!-- Q16 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 16</div>
+<div class="cs">O professor explica que a via aeróbica de produção de ATP depende de coenzimas que transportam hidrogênios até a cadeia respiratória. Quando o oxigênio falta, essa via para e uma via alternativa é ativada — gerando um subproduto que agrava a lesão celular.</div>
+<div class="qc">Qual é essa via alternativa e por que seu subproduto agrava a lesão celular?</div>
+<div class="opts" id="o16">
+  <div class="opt" onclick="sel(16,'a')"><span class="ok">A.</span><span class="ot">Beta-oxidação anaeróbica de ácidos graxos — produz corpos cetônicos que alcalinizam o citoplasma e inibem diretamente a bomba Na+/K+-ATPase por alteração conformacional.</span></div>
+  <div class="opt" onclick="sel(16,'b')"><span class="ok">B.</span><span class="ot">Via das pentoses fosfato reversa — produz NADPH em excesso que gera radicais livres de oxigênio diretamente nas mitocôndrias, agravando a lesão oxidativa.</span></div>
+  <div class="opt" onclick="sel(16,'c')"><span class="ok">C.</span><span class="ot">Ciclo de Krebs reverso — produz oxaloacetato que precipita na membrana interna mitocondrial e bloqueia fisicamente a ATPase, impedindo qualquer produção de ATP.</span></div>
+  <div class="opt" onclick="sel(16,'d')"><span class="ok">D.</span><span class="ot">Glicólise anaeróbica — produz lactato, gerando acidose intracelular que inativa enzimas, desnatura proteínas estruturais e funcionais, amplificando o colapso energético.</span></div>
+</div>
+<div class="fb" id="f16"></div>
+<button class="cb" id="b16" onclick="chk(16)">Verificar</button>
+</div>
+
+<!-- Q17 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 17</div>
+<div class="cs">Paciente com doença valvar mitral por febre reumática crônica. Ecocardiograma: espessamento e calcificações na valva mitral. Cálcio sérico dentro dos valores normais. O cardiologista denomina as calcificações de "distróficas".</div>
+<div class="qc">A definição de calcificação distrófica que justifica o termo do cardiologista é:</div>
+<div class="opts" id="o17">
+  <div class="opt" onclick="sel(17,'a')"><span class="ok">A.</span><span class="ot">Depósito de cálcio em tecido saudável por excesso de ingestão de vitamina D suplementar — o cálcio precipita nas valvas por sobressaturação sérica e requer restrição dietética.</span></div>
+  <div class="opt" onclick="sel(17,'b')"><span class="ok">B.</span><span class="ot">Calcificação fisiológica do envelhecimento do tecido conjuntivo valvar — esperada em todos os adultos acima dos 60 anos, independente de doença inflamatória prévia.</span></div>
+  <div class="opt" onclick="sel(17,'c')"><span class="ok">C.</span><span class="ot">Depósito de cálcio em tecido previamente doente ou necrótico, sem hipercalcemia sistêmica — o cálcio precipita no tecido valvar danificado pela inflamação reumática crônica.</span></div>
+  <div class="opt" onclick="sel(17,'d')"><span class="ok">D.</span><span class="ot">Calcificação por hiperparatireoidismo secundário à inflamação crônica — a febre reumática induz produção ectópica de PTH pela valva lesada, elevando o cálcio localmente.</span></div>
+</div>
+<div class="fb" id="f17"></div>
+<button class="cb" id="b17" onclick="chk(17)">Verificar</button>
+</div>
+
+<!-- Q18 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 18</div>
+<div class="cs">Em aula prática, a professora exibe lâmina de músculo e pede que os alunos identifiquem se é músculo estriado esquelético ou cardíaco, justificando pelos critérios morfológicos.</div>
+<div class="qc">A diferenciação morfológica correta entre os dois tipos musculares na microscopia óptica é:</div>
+<div class="opts" id="o18">
+  <div class="opt" onclick="sel(18,'a')"><span class="ok">A.</span><span class="ot">Músculo cardíaco não apresenta estriações transversais visíveis — as estriações são exclusivas do músculo esquelético e sua ausência no corte é o critério diagnóstico principal.</span></div>
+  <div class="opt" onclick="sel(18,'b')"><span class="ok">B.</span><span class="ot">Músculo cardíaco: núcleos centrais, células ramificadas e discos intercalares. Músculo esquelético: núcleos periféricos, fibras longas sem ramificação. Ambos apresentam estriações transversais.</span></div>
+  <div class="opt" onclick="sel(18,'c')"><span class="ok">C.</span><span class="ot">Músculo cardíaco é mononucleado e sem estriações — músculo esquelético é multinucleado e fortemente estriado. A diferença nuclear é o critério mais confiável.</span></div>
+  <div class="opt" onclick="sel(18,'d')"><span class="ok">D.</span><span class="ot">Somente a imuno-histoquímica para troponina I e miosina cardíaca permite distinguir os dois tipos musculares — a morfologia óptica é insuficiente para diferenciação.</span></div>
+</div>
+<div class="fb" id="f18"></div>
+<button class="cb" id="b18" onclick="chk(18)">Verificar</button>
+</div>
+
+<!-- Q19 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 19</div>
+<div class="cs">Durante cirurgia por isquemia mesentérica grave, o cirurgião encontra extenso segmento intestinal acinzentado, sem peristaltismo. O patologista descreve necrose estabelecida no parênquima intestinal.</div>
+<div class="qc">Qual evento celular marca o ponto de irreversibilidade da lesão isquêmica, diferenciando-o da fase ainda reversível?</div>
+<div class="opts" id="o19">
+  <div class="opt" onclick="sel(19,'a')"><span class="ok">A.</span><span class="ot">A ruptura de organelas (lisossomos, mitocôndrias, retículo endoplasmático) com liberação de enzimas líticas no citoplasma — a partir desse ponto, a autodestruição interna é irreversível independente da restauração do ATP.</span></div>
+  <div class="opt" onclick="sel(19,'b')"><span class="ok">B.</span><span class="ot">A falha da bomba Na+/K+ — uma vez que o sódio acumula intracelularmente, o gradiente iônico não pode ser restabelecido mesmo com reposição de ATP.</span></div>
+  <div class="opt" onclick="sel(19,'c')"><span class="ok">C.</span><span class="ot">O início da glicólise anaeróbica — a produção de lactato representa o ponto sem retorno pois o pH ácido inibe permanentemente todas as enzimas celulares.</span></div>
+  <div class="opt" onclick="sel(19,'d')"><span class="ok">D.</span><span class="ot">A queda inicial do ATP — qualquer redução abaixo da concentração mínima necessária para a bomba é irreversível, pois a célula não consegue reativá-la sem ATP.</span></div>
+</div>
+<div class="fb" id="f19"></div>
+<button class="cb" id="b19" onclick="chk(19)">Verificar</button>
+</div>
+
+<!-- Q20 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 20</div>
+<div class="cs">Cirurgia de desobstrução uretral em paciente com estenose grave de longa data. Bexiga com paredes muito espessadas. Histologia do detrusor: células musculares lisas com diâmetro muito aumentado sem aumento de número.</div>
+<div class="af">
+<p>I — O achado é hipertrofia patológica do músculo detrusor — resposta adaptativa à resistência crônica ao esvaziamento pela obstrução prostática.</p>
+<p>II — Hipertrofia patológica e fisiológica são morfologicamente similares — o que as distingue é a causa: estressor anormal versus estímulo fisiológico.</p>
+<p>III — Após a cirurgia corretora, a hipertrofia do detrusor pode regredir progressivamente ao volume normal, pois é uma adaptação reversível quando o estressor é removido.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o20">
+  <div class="opt" onclick="sel(20,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois a hipertrofia patológica é morfologicamente distinta da fisiológica e é sempre irreversível uma vez estabelecida.</span></div>
+  <div class="opt" onclick="sel(20,'b')"><span class="ok">B.</span><span class="ot">I e III apenas, pois a hipertrofia é reversível, mas a distinção morfológica entre patológica e fisiológica é clara e definitiva na histologia.</span></div>
+  <div class="opt" onclick="sel(20,'c')"><span class="ok">C.</span><span class="ot">II e III apenas, pois o achado descrito não é hipertrofia — é hiperplasia, pois houve aumento de espessura da parede o que implica aumento de número de células.</span></div>
+  <div class="opt" onclick="sel(20,'d')"><span class="ok">D.</span><span class="ot">I, II e III, pois o achado é hipertrofia patológica, morfologicamente similar à fisiológica e reversível com remoção do estressor.</span></div>
+</div>
+<div class="fb" id="f20"></div>
+<button class="cb" id="b20" onclick="chk(20)">Verificar</button>
+</div>
+
+<!-- Q21 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 21</div>
+<div class="cs">Em autópsia de etilista crônico: fígado aumentado e amarelado com corpúsculos de Mallory (material amorfo hialino intracitoplasmático), esteatose intensa e fibrose em pontes iniciando.</div>
+<div class="qc">Os corpúsculos de Mallory representam qual alteração e qual é seu significado diagnóstico?</div>
+<div class="opts" id="o21">
+  <div class="opt" onclick="sel(21,'a')"><span class="ok">A.</span><span class="ot">Acúmulo de glicogênio compactado por hiperinsulinemia crônica — indicam que o hepatócito está em hiperfunção metabólica e tentando armazenar reservas energéticas em excesso.</span></div>
+  <div class="opt" onclick="sel(21,'b')"><span class="ok">B.</span><span class="ot">Depósito de bilirrubina conjugada intrahepática por colestase — indicam obstrução biliar intraluminal e são patognomônicos de hepatite colestática viral por vírus B.</span></div>
+  <div class="opt" onclick="sel(21,'c')"><span class="ok">C.</span><span class="ot">Agregados de filamentos intermediários de citoqueratina desnaturada — indicam lesão hepatocitária crônica grave e são marcadores histológicos de hepatopatia alcoólica e NASH avançada.</span></div>
+  <div class="opt" onclick="sel(21,'d')"><span class="ok">D.</span><span class="ot">Inclusões do vírus da hepatite B nos hepatócitos — indicam replicação viral ativa e são indistinguíveis morfologicamente da lesão alcoólica sem imuno-histoquímica.</span></div>
+</div>
+<div class="fb" id="f21"></div>
+<button class="cb" id="b21" onclick="chk(21)">Verificar</button>
+</div>
+
+<!-- Q22 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 22</div>
+<div class="cs">A professora apresenta: "As células lábeis dividem-se continuamente; as estáveis dividem-se sob estímulo; as permanentes raramente se dividem. Essa classificação determina como cada tecido responde à lesão."</div>
+<div class="qc">A correspondência correta entre tipo celular e resposta à lesão é:</div>
+<div class="opts" id="o22">
+  <div class="opt" onclick="sel(22,'a')"><span class="ok">A.</span><span class="ot">Lábil (enterócito) → regenera por hipertrofia compensatória; estável (hepatócito) → regenera por metaplasia; permanente (cardiomiócito) → regenera por hiperplasia lenta com estímulo hormonal.</span></div>
+  <div class="opt" onclick="sel(22,'b')"><span class="ok">B.</span><span class="ot">Lábil (enterócito) → regenera por hiperplasia (alta capacidade mitótica); estável (hepatócito) → regenera por hiperplasia sob estímulo; permanente (cardiomiócito, neurônio) → não regenera, substitui por fibrose.</span></div>
+  <div class="opt" onclick="sel(22,'c')"><span class="ok">C.</span><span class="ot">Todas as células respondem à lesão por hipertrofia compensatória — a divisão celular é exclusiva do desenvolvimento embrionário e não ocorre em tecidos adultos diferenciados.</span></div>
+  <div class="opt" onclick="sel(22,'d')"><span class="ok">D.</span><span class="ot">Permanentes têm maior capacidade regenerativa pois acumulam reservas de ATP que ativam mitose de emergência; lábeis regeneram por hipertrofia celular individual.</span></div>
+</div>
+<div class="fb" id="f22"></div>
+<button class="cb" id="b22" onclick="chk(22)">Verificar</button>
+</div>
+
+<!-- Q23 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 23</div>
+<div class="cs">Paciente de 62 anos com coronariopatia conhecida inicia reabilitação cardíaca aeróbica supervisionada. Ecocardiograma após um ano: câmaras levemente maiores, paredes proporcionalmente espessadas, função sistólica excelente.</div>
+<div class="qc">A adaptação cardíaca descrita e o que a diferencia da hipertrofia cardíaca patológica são:</div>
+<div class="opts" id="o23">
+  <div class="opt" onclick="sel(23,'a')"><span class="ok">A.</span><span class="ot">Hipertrofia excêntrica fisiológica: câmaras maiores, cardiomiócitos alongados (sarcômeros em série), sem fibrose e sem disfunção. Difere da patológica (hipertensão), que é concêntrica, com fibrose intersticial e disfunção progressiva.</span></div>
+  <div class="opt" onclick="sel(23,'b')"><span class="ok">B.</span><span class="ot">Hipertrofia concêntrica fisiológica: câmaras menores com paredes espessas, cardiomiócitos com sarcômeros em paralelo — idêntica à do hipertenso, distinguida apenas pela ausência de fibrose intersticial.</span></div>
+  <div class="opt" onclick="sel(23,'c')"><span class="ok">C.</span><span class="ot">Hiperplasia de cardiomiócitos: o exercício induz mitose dos cardiomiócitos, aumentando o número total de células musculares e assim as câmaras levemente maiores com função preservada.</span></div>
+  <div class="opt" onclick="sel(23,'d')"><span class="ok">D.</span><span class="ot">Metaplasia funcional do miocárdio: cardiomiócitos se transformam em fibras mais resistentes ao esforço aeróbico, sem alteração de volume — as câmaras maiores refletem apenas vasodilatação fisiológica.</span></div>
+</div>
+<div class="fb" id="f23"></div>
+<button class="cb" id="b23" onclick="chk(23)">Verificar</button>
+</div>
+
+<!-- Q24 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 24</div>
+<div class="cs">Médico prescreve estatina para paciente com aterosclerose coronariana grave já estabelecida. O paciente pergunta: "A estatina vai dissolver as minhas placas?"</div>
+<div class="qc">A resposta correta do médico é:</div>
+<div class="opts" id="o24">
+  <div class="opt" onclick="sel(24,'a')"><span class="ok">A.</span><span class="ot">Sim, a estatina dissolve progressivamente as placas ao inibir a calcificação distrófica intravascular e estimular macrófagos a removerem o núcleo lipídico das placas existentes.</span></div>
+  <div class="opt" onclick="sel(24,'b')"><span class="ok">B.</span><span class="ot">Sim, parcialmente — a estatina dissolve apenas o núcleo lipídico das placas, mantendo intacta a capa fibrosa calcificada, o que paradoxalmente as estabiliza.</span></div>
+  <div class="opt" onclick="sel(24,'c')"><span class="ok">C.</span><span class="ot">Sim, dissolve as placas ao reverter a xantomatose dos macrófagos vasculares, forçando-os a liberar o colesterol de volta para o plasma onde é excretado pelo fígado.</span></div>
+  <div class="opt" onclick="sel(24,'d')"><span class="ok">D.</span><span class="ot">Não — a estatina inibe a produção hepática de LDL, reduzindo o colesterol circulante e prevenindo novas placas, mas não dissolve as existentes. O risco de trombo sobre placa rota persiste.</span></div>
+</div>
+<div class="fb" id="f24"></div>
+<button class="cb" id="b24" onclick="chk(24)">Verificar</button>
+</div>
+
+<!-- Q25 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 25</div>
+<div class="cs">O professor afirma: "A membrana celular é uma estrutura lipídica fluida. Essa fluidez é essencial para que as proteínas transmembranares funcionem. Sem fluidez, a bomba para. Se a bomba para, a célula se degenera."</div>
+<div class="qc">A implicação correta dessa afirmação para a patologia celular é:</div>
+<div class="opts" id="o25">
+  <div class="opt" onclick="sel(25,'a')"><span class="ok">A.</span><span class="ot">Qualquer alteração lipídica da membrana é imediatamente letal pois bloqueia todos os canais iônicos e receptores transmembranares de forma simultânea e irreversível.</span></div>
+  <div class="opt" onclick="sel(25,'b')"><span class="ok">B.</span><span class="ot">A fluidez membranar é exclusivamente regulada pelo colesterol; estatinas, ao reduzirem o colesterol sistêmico, tornam as membranas rígidas e causam degeneração hidrópica iatrogênica.</span></div>
+  <div class="opt" onclick="sel(25,'c')"><span class="ok">C.</span><span class="ot">A fluidez permite o funcionamento das proteínas transportadoras incluindo a bomba Na+/K+; agentes que alteram a composição lipídica da membrana podem inibir a bomba e desencadear degeneração hidrópica.</span></div>
+  <div class="opt" onclick="sel(25,'d')"><span class="ok">D.</span><span class="ot">A fluidez membranar importa apenas para a exocitose de vesículas de secreção; as bombas iônicas funcionam de forma autônoma, independente da estrutura lipídica ao redor.</span></div>
+</div>
+<div class="fb" id="f25"></div>
+<button class="cb" id="b25" onclick="chk(25)">Verificar</button>
+</div>
+
+<!-- Q26 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 26</div>
+<div class="cs">Paciente de 52 anos, hipertenso, com supradesnivelamento de ST, troponina muito elevada. Submetido a angioplastia primária com restabelecimento do fluxo coronário. Evolui estável.</div>
+<div class="af">
+<p>I — A troponina elevada indica necrose de cardiomiócitos — é uma proteína intracelular liberada pela ruptura da membrana celular.</p>
+<p>II — Se a angioplastia tivesse sido realizada antes da ruptura de organelas, parte dos cardiomiócitos ainda em degeneração hidrópica poderia ter se recuperado.</p>
+<p>III — Após a necrose estabelecida, os cardiomiócitos afetados serão substituídos por novos cardiomiócitos por hiperplasia compensatória nas semanas seguintes.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o26">
+  <div class="opt" onclick="sel(26,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois a degeneração hidrópica não é reversível e a hiperplasia de cardiomiócitos ocorre de forma limitada nas primeiras 48 horas após o infarto.</span></div>
+  <div class="opt" onclick="sel(26,'b')"><span class="ok">B.</span><span class="ot">I e II, pois a troponina confirma necrose e a reperfusão precoce poderia ter salvo cardiomiócitos ainda em fase reversível de degeneração hidrópica.</span></div>
+  <div class="opt" onclick="sel(26,'c')"><span class="ok">C.</span><span class="ot">II e III, pois a degeneração hidrópica é reversível com reperfusão e cardiomiócitos permanentes se regeneram por hiperplasia compensatória pós-infarto.</span></div>
+  <div class="opt" onclick="sel(26,'d')"><span class="ok">D.</span><span class="ot">I, II e III, pois todas as afirmativas são corretas incluindo a capacidade regenerativa dos cardiomiócitos após isquemia submetida à reperfusão precoce.</span></div>
+</div>
+<div class="fb" id="f26"></div>
+<button class="cb" id="b26" onclick="chk(26)">Verificar</button>
+</div>
+
+<!-- Q27 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 27</div>
+<div class="cs">Necropsia de paciente de 30 anos com morte súbita revela duas cicatrizes fibróticas antigas no septo ventricular além da área de necrose aguda recente — evidência de infartos silenciosos prévios.</div>
+<div class="qc">As cicatrizes fibróticas antigas revelam qual processo histológico que ocorreu nos episódios anteriores?</div>
+<div class="opts" id="o27">
+  <div class="opt" onclick="sel(27,'a')"><span class="ok">A.</span><span class="ot">Necrose de coagulação dos cardiomiócitos → remoção de debris por macrófagos → migração de fibroblastos → síntese de colágeno → fibrose cicatricial definitiva sem recuperação da função contrátil local.</span></div>
+  <div class="opt" onclick="sel(27,'b')"><span class="ok">B.</span><span class="ot">Apoptose maciça de cardiomiócitos com substituição progressiva por células de Purkinje hipertrofiadas que gradualmente se fibrosam por senescência celular acelerada.</span></div>
+  <div class="opt" onclick="sel(27,'c')"><span class="ok">C.</span><span class="ot">Degeneração hidrópica crônica com progressão lenta para calcificação distrófica, formando as cicatrizes brancas por mineralização dos vacúolos de água acumulados.</span></div>
+  <div class="opt" onclick="sel(27,'d')"><span class="ok">D.</span><span class="ot">Metaplasia dos cardiomiócitos para fibroblastos em resposta à isquemia crônica recorrente, com produção direta de colágeno pelas células musculares transdifenciadas.</span></div>
+</div>
+<div class="fb" id="f27"></div>
+<button class="cb" id="b27" onclick="chk(27)">Verificar</button>
+</div>
+
+<!-- Q28 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 28</div>
+<div class="cs">A professora apresenta dois cenários: no primeiro, hipotensão transitória de poucos minutos durante cirurgia, revertida rapidamente; no segundo, parada cardíaca não ressuscitada por longo período.</div>
+<div class="qc">O que determina que o primeiro resulte em lesão reversível e o segundo em lesão irreversível?</div>
+<div class="opts" id="o28">
+  <div class="opt" onclick="sel(28,'a')"><span class="ok">A.</span><span class="ot">No primeiro cenário o paciente é mais jovem e tem mais mitocôndrias por cardiomiócito — a idade e a densidade mitocondrial são os principais determinantes da reversibilidade.</span></div>
+  <div class="opt" onclick="sel(28,'b')"><span class="ok">B.</span><span class="ot">No primeiro cenário a glicólise anaeróbica é suficiente para manter o pH celular normal indefinidamente — a acidose láctica é irreversível apenas quando o substrato de glicose se esgota.</span></div>
+  <div class="opt" onclick="sel(28,'c')"><span class="ok">C.</span><span class="ot">No segundo cenário o paciente tinha doença renal preexistente que agravou a acidose e acelerou a progressão da degeneração hidrópica para necrose antes do esperado.</span></div>
+  <div class="opt" onclick="sel(28,'d')"><span class="ok">D.</span><span class="ot">A intensidade e a duração do estressor: no primeiro, ATP é restaurado antes da ruptura de organelas (fase reversível); no segundo, a isquemia persiste até a ruptura de lisossomos e mitocôndrias — ponto de irreversibilidade.</span></div>
+</div>
+<div class="fb" id="f28"></div>
+<button class="cb" id="b28" onclick="chk(28)">Verificar</button>
+</div>
+
+<!-- Q29 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 29</div>
+<div class="cs">A professora alerta: "Quando você pega um hemograma de um paciente negro e vê leucócitos abaixo do esperado, você não pode simplesmente assumir que há leucopenia patológica. Você precisa olhar o contexto."</div>
+<div class="qc">Qual é o fundamento correto do alerta da professora?</div>
+<div class="opts" id="o29">
+  <div class="opt" onclick="sel(29,'a')"><span class="ok">A.</span><span class="ot">Pacientes negros têm maior suscetibilidade a infecções bacterianas que consomem leucócitos cronicamente, deslocando o valor basal para baixo em toda a população.</span></div>
+  <div class="opt" onclick="sel(29,'b')"><span class="ok">B.</span><span class="ot">Eritropoetina em maior concentração basal na raça negra inibe competitivamente a produção leucocitária na medula, sendo a contagem reduzida uma consequência da eritropoiese aumentada.</span></div>
+  <div class="opt" onclick="sel(29,'c')"><span class="ok">C.</span><span class="ot">A raça negra tem tendência genética a apresentar contagem leucocitária basal menor — o que pode ser normal para aquele indivíduo. O hemograma exige interpretação no contexto clínico e hereditário.</span></div>
+  <div class="opt" onclick="sel(29,'d')"><span class="ok">D.</span><span class="ot">Os valores de referência leucocitários foram estabelecidos em populações caucasianas e são totalmente inaplicáveis a populações negras, exigindo tabelas de referência étnicas separadas.</span></div>
+</div>
+<div class="fb" id="f29"></div>
+<button class="cb" id="b29" onclick="chk(29)">Verificar</button>
+</div>
+
+<!-- Q30 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 30</div>
+<div class="cs">Paciente obeso, diabético e dislipidêmico com dor abdominal intensa em barra, amilase e lipase séricas muito elevadas, confirmando pancreatite aguda. Triglicérides em nível gravíssimo.</div>
+<div class="qc">A relação fisiopatológica entre a hipertrigliceridemia grave e a pancreatite aguda é:</div>
+<div class="opts" id="o30">
+  <div class="opt" onclick="sel(30,'a')"><span class="ok">A.</span><span class="ot">Os triglicérides se depositam nos ductos pancreáticos causando obstrução mecânica ao fluxo do suco pancreático, com ativação enzimática intrapancreática secundária.</span></div>
+  <div class="opt" onclick="sel(30,'b')"><span class="ok">B.</span><span class="ot">A lipase pancreática cliva os triglicérides em excesso nos capilares pancreáticos, liberando ácidos graxos livres diretamente citotóxicos para as células acinares, gerando inflamação e necrose.</span></div>
+  <div class="opt" onclick="sel(30,'c')"><span class="ok">C.</span><span class="ot">Os triglicérides elevados causam vasoespasmo da artéria esplênica por ativação de macrófagos xantomizados intravasculares que secretam endotelina em excesso.</span></div>
+  <div class="opt" onclick="sel(30,'d')"><span class="ok">D.</span><span class="ot">A hipertrigliceridemia causa calcificação distrófica progressiva dos ductos pancreáticos, obstruindo a drenagem biliar e gerando pancreatite por refluxo biliar.</span></div>
+</div>
+<div class="fb" id="f30"></div>
+<button class="cb" id="b30" onclick="chk(30)">Verificar</button>
+</div>
+
+<!-- Q31 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 31</div>
+<div class="cs">O professor compara esteatose hepática e lipidose vascular lado a lado e pede que os alunos identifiquem as diferenças fundamentais.</div>
+<div class="qc">A distinção correta entre esteatose e lipidose (xantomatose) é:</div>
+<div class="opts" id="o31">
+  <div class="opt" onclick="sel(31,'a')"><span class="ok">A.</span><span class="ot">Esteatose: acúmulo de triglicérides em hepatócitos (célula parenquimatosa). Lipidose/xantomatose: acúmulo de colesterol LDL em macrófagos (vasos, derme, tendões). Células, lipídios, localizações e mecanismos completamente distintos.</span></div>
+  <div class="opt" onclick="sel(31,'b')"><span class="ok">B.</span><span class="ot">Esteatose: acúmulo de colesterol LDL em macrófagos hepáticos. Lipidose: acúmulo de triglicérides em hepatócitos vasculares. A denominação varia conforme o órgão afetado, mas o mecanismo é o mesmo.</span></div>
+  <div class="opt" onclick="sel(31,'c')"><span class="ok">C.</span><span class="ot">Esteatose e lipidose são o mesmo processo com nomes distintos — ambas representam acúmulo de lipídios em células incapazes de metabolizá-los, independente do tipo lipídico ou da célula envolvida.</span></div>
+  <div class="opt" onclick="sel(31,'d')"><span class="ok">D.</span><span class="ot">Esteatose: acúmulo de colesterol HDL em hepatócitos por captação excessiva. Lipidose: acúmulo de triglicérides em células endoteliais por lipotoxicidade vascular direta.</span></div>
+</div>
+<div class="fb" id="f31"></div>
+<button class="cb" id="b31" onclick="chk(31)">Verificar</button>
+</div>
+
+<!-- Q32 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 32</div>
+<div class="cs">Paciente de 32 anos com déficit motor à direita por oclusão embólica da artéria cerebral média esquerda. Ressonância magnética revela extensa área isquêmica. A família pergunta se o cérebro vai se recuperar.</div>
+<div class="qc">A resposta fisiopatologicamente correta, baseada na classificação celular das aulas, é:</div>
+<div class="opts" id="o32">
+  <div class="opt" onclick="sel(32,'a')"><span class="ok">A.</span><span class="ot">Sim — neurônios são células lábeis com divisão contínua; a recuperação completa ocorre em semanas pelo mesmo mecanismo da regeneração intestinal após lesão.</span></div>
+  <div class="opt" onclick="sel(32,'b')"><span class="ok">B.</span><span class="ot">Sim, parcialmente — neurônios são células estáveis que se regeneram por hiperplasia moderada sob estímulo de fatores neurotróficos administrados via reabilitação.</span></div>
+  <div class="opt" onclick="sel(32,'c')"><span class="ok">C.</span><span class="ot">Depende do tipo de embolia — se arterial (aterosclerótica), neurônios não se regeneram; se cardioembólica, a recuperação é possível pois o mecanismo não lesa os axônios.</span></div>
+  <div class="opt" onclick="sel(32,'d')"><span class="ok">D.</span><span class="ot">Não — neurônios são células permanentes sem capacidade significativa de regeneração; a área infartada será substituída por gliose cicatricial, com perda permanente da função neurológica.</span></div>
+</div>
+<div class="fb" id="f32"></div>
+<button class="cb" id="b32" onclick="chk(32)">Verificar</button>
+</div>
+
+<!-- Q33 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 33</div>
+<div class="cs">Aula prática: lâmina de infarto cerebral antigo mostra cavidade cística com bordas definidas, sem rastro de tecido neuronal. O professor compara com infarto do miocárdio — a diferença é marcante.</div>
+<div class="qc">A diferença entre os tipos de necrose nos dois infartos e o motivo da diferença são:</div>
+<div class="opts" id="o33">
+  <div class="opt" onclick="sel(33,'a')"><span class="ok">A.</span><span class="ot">Infarto cerebral = necrose de coagulação com tecido firme e arquitetura preservada; infarto do miocárdio = necrose de liquefação com cavidade cística, pois o músculo cardíaco é mais rico em enzimas proteolíticas.</span></div>
+  <div class="opt" onclick="sel(33,'b')"><span class="ok">B.</span><span class="ot">Ambos apresentam necrose de coagulação — a cavidade cística cerebral é artefato de técnica histológica por retração do tecido nervoso durante o processamento.</span></div>
+  <div class="opt" onclick="sel(33,'c')"><span class="ok">C.</span><span class="ot">Infarto do miocárdio = necrose de coagulação (proteínas coagulam, contorno preservado); infarto cerebral = necrose de liquefação (tecido rico em lipídios e enzimas proteolíticas que dissolvem o parênquima gerando cavidade cística).</span></div>
+  <div class="opt" onclick="sel(33,'d')"><span class="ok">D.</span><span class="ot">Ambos apresentam necrose de liquefação — no miocárdio, a fibrose preenche a cavidade cística antes da biópsia, simulando falsamente uma necrose de coagulação.</span></div>
+</div>
+<div class="fb" id="f33"></div>
+<button class="cb" id="b33" onclick="chk(33)">Verificar</button>
+</div>
+
+<!-- Q34 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 34</div>
+<div class="cs">Paciente em choque séptico grave com hipoperfusão de múltiplos órgãos. Gasometria: acidose metabólica com lactato muito elevado. A equipe discute quais lesões celulares estão ocorrendo nos órgãos hipoperfundidos.</div>
+<div class="qc">A cascata correta de lesão celular nos órgãos hipoperfundidos é:</div>
+<div class="opts" id="o34">
+  <div class="opt" onclick="sel(34,'a')"><span class="ok">A.</span><span class="ot">Sepse → excesso de radicais livres → apoptose celular rápida e sincronizada em todos os órgãos → fibrose imediata → falência de múltiplos órgãos por perda da arquitetura.</span></div>
+  <div class="opt" onclick="sel(34,'b')"><span class="ok">B.</span><span class="ot">Choque → hipoperfusão → hipóxia → queda de ATP → falha da bomba Na+/K+ → degeneração hidrópica → (sem reversão) ruptura de organelas → necrose → falência de múltiplos órgãos.</span></div>
+  <div class="opt" onclick="sel(34,'c')"><span class="ok">C.</span><span class="ot">Sepse → hiperglicemia de estresse → toxicidade direta de glicose → degeneração glicogênica → necrose osmótica com lise celular por hiperosmolaridade intracelular.</span></div>
+  <div class="opt" onclick="sel(34,'d')"><span class="ok">D.</span><span class="ot">Choque → hipervolemia compensatória → excesso de O2 dissolvido → calcificação distrófica difusa das mitocôndrias → oclusão capilar → isquemia secundária.</span></div>
+</div>
+<div class="fb" id="f34"></div>
+<button class="cb" id="b34" onclick="chk(34)">Verificar</button>
+</div>
+
+<!-- Q35 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 35</div>
+<div class="cs">Cirurgia de desobstrução uretral bem-sucedida em paciente com bexiga de paredes muito espessadas por obstrução grave crônica. Histologia do detrusor: hipertrofia expressiva das células musculares lisas.</div>
+<div class="qc">Após a cirurgia, é esperado que a parede da bexiga:</div>
+<div class="opts" id="o35">
+  <div class="opt" onclick="sel(35,'a')"><span class="ok">A.</span><span class="ot">Regresse progressivamente ao volume normal, pois a hipertrofia é adaptação reversível quando o estressor é removido — como o útero involui após o parto.</span></div>
+  <div class="opt" onclick="sel(35,'b')"><span class="ok">B.</span><span class="ot">Permaneça espessa permanentemente, pois toda hipertrofia patológica é irreversível uma vez que os sarcômeros extras sintetizados não são degradados pelo organismo.</span></div>
+  <div class="opt" onclick="sel(35,'c')"><span class="ok">C.</span><span class="ot">Evolua para atrofia severa e fibrose, pois sem o estímulo de resistência o músculo liso detrusor entra em apoptose maciça e é substituído por colágeno.</span></div>
+  <div class="opt" onclick="sel(35,'d')"><span class="ok">D.</span><span class="ot">Sofra metaplasia para músculo estriado esquelético, pois sem o controle autonômico restaurado pelo alívio da obstrução o músculo liso perde seu fenótipo.</span></div>
+</div>
+<div class="fb" id="f35"></div>
+<button class="cb" id="b35" onclick="chk(35)">Verificar</button>
+</div>
+
+<!-- Q36 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 36</div>
+<div class="cs">A professora apresenta: "A célula tem capacidade de sentir o estressor e responder a ele antes de ser lesada. Essa resposta é o que chamamos de adaptação. Quando a adaptação falha ou é ultrapassada, começa a lesão."</div>
+<div class="qc">O objetivo central da adaptação celular frente a um agente estressor é:</div>
+<div class="opts" id="o36">
+  <div class="opt" onclick="sel(36,'a')"><span class="ok">A.</span><span class="ot">Eliminar o agente estressor por mecanismos imunológicos intracelulares antes que ele atinja as organelas — se a eliminação falha, a célula entra diretamente em necrose.</span></div>
+  <div class="opt" onclick="sel(36,'b')"><span class="ok">B.</span><span class="ot">Produzir o máximo de ATP possível antes que o estressor se instale, armazenando energia como glicogênio para resistir à lesão durante o período de privação metabólica.</span></div>
+  <div class="opt" onclick="sel(36,'c')"><span class="ok">C.</span><span class="ot">Transformar-se em outro tipo celular por metaplasia de emergência, mais resistente ao estressor específico presente, para garantir a sobrevivência do tecido.</span></div>
+  <div class="opt" onclick="sel(36,'d')"><span class="ok">D.</span><span class="ot">Manter a homeostase e o funcionamento celular o mais próximo possível do normal, evitando a progressão para lesão franca e morte celular diante do estresse.</span></div>
+</div>
+<div class="fb" id="f36"></div>
+<button class="cb" id="b36" onclick="chk(36)">Verificar</button>
+</div>
+
+<!-- Q37 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 37</div>
+<div class="cs">Paciente jovem com hipercolesterolemia familiar grave apresenta "arco corneal" — anel esbranquiçado na periferia da córnea visível a olho nu.</div>
+<div class="qc">O arco corneal representa e sua relevância clínica em paciente jovem é:</div>
+<div class="opts" id="o37">
+  <div class="opt" onclick="sel(37,'a')"><span class="ok">A.</span><span class="ot">Calcificação distrófica da córnea por hipercalcemia secundária à hipercolesterolemia — é achado incidental sem relevância cardiovascular e não requer investigação adicional.</span></div>
+  <div class="opt" onclick="sel(37,'b')"><span class="ok">B.</span><span class="ot">Opacificação por degeneração hidrópica do epitélio corneano causada pela hiperosmolaridade do soro hipercolesterolêmico — é reversível com controle do colesterol sérico.</span></div>
+  <div class="opt" onclick="sel(37,'c')"><span class="ok">C.</span><span class="ot">Depósito de colesterol em macrófagos xantomizados na periferia da córnea — visível pela pele delgada local. Em jovens indica hipercolesterolemia grave (possivelmente familiar) e alto risco cardiovascular precoce.</span></div>
+  <div class="opt" onclick="sel(37,'d')"><span class="ok">D.</span><span class="ot">Fibrose corneana por resposta inflamatória ao LDL oxidado circulante — é exclusiva da hipercolesterolemia familiar e não ocorre em dislipidemias adquiridas.</span></div>
+</div>
+<div class="fb" id="f37"></div>
+<button class="cb" id="b37" onclick="chk(37)">Verificar</button>
+</div>
+
+<!-- Q38 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 38</div>
+<div class="cs">Paciente com aortite sifilítica crônica. Radiografia de tórax: calcificações lineares na parede da aorta ascendente. Cálcio sérico normal.</div>
+<div class="qc">As calcificações da parede aórtica são classificadas como:</div>
+<div class="opts" id="o38">
+  <div class="opt" onclick="sel(38,'a')"><span class="ok">A.</span><span class="ot">Calcificação metastática — ocorre em tecido saudável por hipercalcemia secundária à inflamação sifilítica crônica que estimula osteoclastos ectópicos na adventícia.</span></div>
+  <div class="opt" onclick="sel(38,'b')"><span class="ok">B.</span><span class="ot">Calcificação distrófica — ocorre em tecido previamente doente (parede aórtica inflamada pela aortite), sem hipercalcemia sistêmica. O cálcio precipita no tecido lesado pela sífilis.</span></div>
+  <div class="opt" onclick="sel(38,'c')"><span class="ok">C.</span><span class="ot">Ossificação heterotópica — a parede aórtica produz osso lamelar como resposta à inflamação crônica granulomatosa, processo exclusivo da aortite sifilítica.</span></div>
+  <div class="opt" onclick="sel(38,'d')"><span class="ok">D.</span><span class="ot">Calcificação fisiológica do envelhecimento da camada elástica aórtica — esperada em todos os pacientes com história de doença inflamatória crônica tratada.</span></div>
+</div>
+<div class="fb" id="f38"></div>
+<button class="cb" id="b38" onclick="chk(38)">Verificar</button>
+</div>
+
+<!-- Q39 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 39</div>
+<div class="cs">Na microscopia eletrônica de célula em lesão avançada, o professor aponta estruturas denominadas "figuras de mielina" e pergunta o que são.</div>
+<div class="qc">A resposta correta é:</div>
+<div class="opts" id="o39">
+  <div class="opt" onclick="sel(39,'a')"><span class="ok">A.</span><span class="ot">Fragmentos de membrana celular desorganizados em espiral, formados pela desestruturação da bicamada lipídica durante a lesão avançada — indicam que a lesão membranar já está estabelecida.</span></div>
+  <div class="opt" onclick="sel(39,'b')"><span class="ok">B.</span><span class="ot">Invaginações do retículo endoplasmático liso com aspecto em espiral, formadas pelo acúmulo de glicogênio nas cristas do retículo durante a lesão hipóxica.</span></div>
+  <div class="opt" onclick="sel(39,'c')"><span class="ok">C.</span><span class="ot">Extensões de oligodendrócitos que invadem células lesadas para remielinizá-las e reforçar suas membranas como mecanismo de reparo celular de emergência.</span></div>
+  <div class="opt" onclick="sel(39,'d')"><span class="ok">D.</span><span class="ot">Artefatos de fixação do tecido com glutaraldeído que surgem em toda microscopia eletrônica de célula em necrose, sem nenhum significado patológico real.</span></div>
+</div>
+<div class="fb" id="f39"></div>
+<button class="cb" id="b39" onclick="chk(39)">Verificar</button>
+</div>
+
+<!-- Q40 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 40</div>
+<div class="cs">A professora exibe duas lâminas de fígado: na primeira, hepatócitos com citoplasma claro e múltiplos vacúolos pequenos sem deslocamento nuclear (paciente em choque). Na segunda, hepatócitos com vacúolo único grande deslocando o núcleo para a periferia (paciente obeso).</div>
+<div class="qc">A característica morfológica que distingue as duas lesões é:</div>
+<div class="opts" id="o40">
+  <div class="opt" onclick="sel(40,'a')"><span class="ok">A.</span><span class="ot">As duas lesões são morfologicamente idênticas e só são distinguíveis pela coloração de Oil Red O para lipídios — vacúolos com lipídios coram em vermelho; os de água, não.</span></div>
+  <div class="opt" onclick="sel(40,'b')"><span class="ok">B.</span><span class="ot">Na degeneração hidrópica o vacúolo único é grande e desloca o núcleo; na esteatose os vacúolos são múltiplos e pequenos sem deslocamento nuclear — o oposto do que ocorre.</span></div>
+  <div class="opt" onclick="sel(40,'c')"><span class="ok">C.</span><span class="ot">Degeneração hidrópica afeta exclusivamente o núcleo (cariólise); esteatose afeta exclusivamente as mitocôndrias (vacúolos mitocondriais) — a distribuição intracelular diferente é o critério diagnóstico.</span></div>
+  <div class="opt" onclick="sel(40,'d')"><span class="ok">D.</span><span class="ot">Degeneração hidrópica: vacúolos múltiplos e pequenos de água, sem deslocamento nuclear. Esteatose macrovacuolar: vacúolo único grande de triglicérides que empurra o núcleo para a periferia celular.</span></div>
+</div>
+<div class="fb" id="f40"></div>
+<button class="cb" id="b40" onclick="chk(40)">Verificar</button>
+</div>
+
+<!-- Q41 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 41</div>
+<div class="cs">Paciente grávida com ecocardiografia fetal normal. Após o parto, o cardiologista comenta que o útero, que cresceu muito durante a gestação, já começou a involuir.</div>
+<div class="af">
+<p>I — O crescimento uterino durante a gravidez ocorre por hipertrofia fisiológica das células musculares lisas do miométrio, estimuladas por hormônios.</p>
+<p>II — O útero gravídico pode apresentar tanto hipertrofia quanto hiperplasia — ambas coexistem no mesmo órgão como resposta ao estímulo hormonal gestacional.</p>
+<p>III — A involução pós-parto confirma que a hipertrofia fisiológica é reversível quando o estímulo hormonal cessa.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o41">
+  <div class="opt" onclick="sel(41,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois o útero não apresenta hiperplasia durante a gravidez (músculo liso é permanente) e a involução pós-parto indica atrofia, não reversão de hipertrofia.</span></div>
+  <div class="opt" onclick="sel(41,'b')"><span class="ok">B.</span><span class="ot">I e III apenas, pois a hiperplasia uterina gestacional não ocorre — apenas as células existentes hipertrofiam e depois regridem ao volume basal após o parto.</span></div>
+  <div class="opt" onclick="sel(41,'c')"><span class="ok">C.</span><span class="ot">I, II e III, pois hipertrofia e hiperplasia coexistem no útero gravídico e a involução confirma a reversibilidade da hipertrofia fisiológica.</span></div>
+  <div class="opt" onclick="sel(41,'d')"><span class="ok">D.</span><span class="ot">Apenas II e I, pois a involução pós-parto não representa reversão de hipertrofia mas sim atrofia por desuso após cessação do estímulo hormonal.</span></div>
+</div>
+<div class="fb" id="f41"></div>
+<button class="cb" id="b41" onclick="chk(41)">Verificar</button>
+</div>
+
+<!-- Q42 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 42</div>
+<div class="cs">O professor pergunta: "Pense em um paciente com hipercolesterolemia não tratada por 20 anos. O que você espera encontrar nos vasos dele?"</div>
+<div class="qc">A sequência completa de eventos vasculares esperados, do início ao estágio avançado, é:</div>
+<div class="opts" id="o42">
+  <div class="opt" onclick="sel(42,'a')"><span class="ok">A.</span><span class="ot">LDL alto → depósito direto de colesterol nas fibras elásticas da íntima → calcificação metastática progressiva → oclusão gradual sem participação celular.</span></div>
+  <div class="opt" onclick="sel(42,'b')"><span class="ok">B.</span><span class="ot">LDL alto → macrófagos fagocitam LDL → macrófagos xantomizados → interleucinas inflamatórias → tecido fibroso (placa) → calcificação distrófica → capa fibrosa afilada → ruptura → trombo → infarto ou AVC.</span></div>
+  <div class="opt" onclick="sel(42,'c')"><span class="ok">C.</span><span class="ot">LDL alto → hipertrofia das células musculares lisas vasculares → metaplasia para células secretoras de colágeno → fibrose concêntrica da íntima → estenose progressiva sem placa lipídica.</span></div>
+  <div class="opt" onclick="sel(42,'d')"><span class="ok">D.</span><span class="ot">LDL alto → oxidação direta do endotélio pelo colesterol → apoptose endotelial maciça → trombose primária → organização do trombo em placa fibrosa calcificada.</span></div>
+</div>
+<div class="fb" id="f42"></div>
+<button class="cb" id="b42" onclick="chk(42)">Verificar</button>
+</div>
+
+<!-- Q43 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 43</div>
+<div class="cs">Microscopia de fígado de paciente com imobilização prolongada pós-acidente: hepatócitos de tamanho diminuído, citoplasma denso, menor número de organelas, núcleo retraído.</div>
+<div class="qc">O achado é atrofia. Os mecanismos mais pertinentes a esse caso são:</div>
+<div class="opts" id="o43">
+  <div class="opt" onclick="sel(43,'a')"><span class="ok">A.</span><span class="ot">Atrofia por desuso (músculos sem carga mecânica), por redução do aporte sanguíneo (inatividade reduz fluxo) e/ou nutricional (caquexia por jejum prolongado) — múltiplos mecanismos coexistentes.</span></div>
+  <div class="opt" onclick="sel(43,'b')"><span class="ok">B.</span><span class="ot">Atrofia por hiperfunção metabólica compensatória — o fígado reduz o tamanho celular para aumentar a eficiência por unidade de volume durante a fase de catabolismo.</span></div>
+  <div class="opt" onclick="sel(43,'c')"><span class="ok">C.</span><span class="ot">Atrofia senil exclusiva — a imobilização acelera o envelhecimento celular por estresse oxidativo e o padrão histológico é exclusivo de pacientes acima de 70 anos.</span></div>
+  <div class="opt" onclick="sel(43,'d')"><span class="ok">D.</span><span class="ot">Atrofia por excesso de trabalho — o fígado é sobrecarregado pelo catabolismo proteico aumentado durante a imobilização e reduz o tamanho celular para compensar.</span></div>
+</div>
+<div class="fb" id="f43"></div>
+<button class="cb" id="b43" onclick="chk(43)">Verificar</button>
+</div>
+
+<!-- Q44 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 44</div>
+<div class="cs">O professor afirma: "A produção de ATP depende de um gradiente de prótons criado pelo fluxo de hidrogênios na membrana interna mitocondrial. Esse gradiente aciona a bomba ATPase."</div>
+<div class="qc">O papel correto das coenzimas NAD e FAD nesse processo é:</div>
+<div class="opts" id="o44">
+  <div class="opt" onclick="sel(44,'a')"><span class="ok">A.</span><span class="ot">NAD e FAD são inibidores da fosforilação oxidativa — sinalizam excesso de ATP ao frearem a cadeia respiratória por feedback negativo quando a célula está energeticamente satisfeita.</span></div>
+  <div class="opt" onclick="sel(44,'b')"><span class="ok">B.</span><span class="ot">NAD e FAD são substratos diretamente clivados pela ATPase mitocondrial para gerar ATP, sem envolvimento da cadeia de elétrons ou dos citocromos da membrana interna.</span></div>
+  <div class="opt" onclick="sel(44,'c')"><span class="ok">C.</span><span class="ot">NAD e FAD regulam o pH intracelular captando prótons livres no citoplasma e liberando-os nos túbulos renais, mantendo o equilíbrio ácido-base independente da respiração celular.</span></div>
+  <div class="opt" onclick="sel(44,'d')"><span class="ok">D.</span><span class="ot">NAD e FAD captam hidrogênios no ciclo de Krebs (formando NADH e FADH2) e os transferem para a cadeia respiratória; o fluxo desses hidrogênios pelos citocromos cria o gradiente de prótons que aciona a ATPase.</span></div>
+</div>
+<div class="fb" id="f44"></div>
+<button class="cb" id="b44" onclick="chk(44)">Verificar</button>
+</div>
+
+<!-- Q45 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 45</div>
+<div class="cs">Paciente tabagista hipertenso desenvolve AVC isquêmico por embolia de placa carotídea. O neurologista explica que a hipertensão contribuiu para o evento de forma adicional, além de acelerar a aterosclerose.</div>
+<div class="qc">O mecanismo adicional pelo qual a hipertensão aumenta o risco de eventos isquêmicos agudos é:</div>
+<div class="opts" id="o45">
+  <div class="opt" onclick="sel(45,'a')"><span class="ok">A.</span><span class="ot">A hipertensão causa atrofia do endotélio vascular pela pressão mecânica crônica, reduzindo a secreção de óxido nítrico vasodilatador e favorecendo vasoespasmo.</span></div>
+  <div class="opt" onclick="sel(45,'b')"><span class="ok">B.</span><span class="ot">A hipertensão provoca hiperplasia do endotélio que espessa progressivamente a íntima, reduzindo o lúmen vascular e aumentando a turbulência propícia à formação de trombos.</span></div>
+  <div class="opt" onclick="sel(45,'c')"><span class="ok">C.</span><span class="ot">Crises hipertensivas causam lesão mecânica do endotélio vascular → exposição do subendotélio trombogênico → ativação plaquetária → trombo sobre a lesão ou placa preexistente → oclusão aguda.</span></div>
+  <div class="opt" onclick="sel(45,'d')"><span class="ok">D.</span><span class="ot">A hipertensão eleva o hematócrito por esplenocontração reflexa, aumentando a viscosidade sanguínea e o risco de trombose espontânea independente da placa.</span></div>
+</div>
+<div class="fb" id="f45"></div>
+<button class="cb" id="b45" onclick="chk(45)">Verificar</button>
+</div>
+
+<!-- Q46 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 46</div>
+<div class="cs">O professor discute que células musculares lisas vasculares — ao contrário dos cardiomiócitos — têm capacidade proliferativa sob estímulo, com implicações tanto para adaptação normal quanto para a aterosclerose.</div>
+<div class="qc">Como essa característica contribui para a progressão da placa aterosclerótica?</div>
+<div class="opts" id="o46">
+  <div class="opt" onclick="sel(46,'a')"><span class="ok">A.</span><span class="ot">As células musculares lisas se transformam em macrófagos xantomizados por metaplasia inflamatória, amplificando o núcleo lipídico da placa ao acumularem colesterol LDL.</span></div>
+  <div class="opt" onclick="sel(46,'b')"><span class="ok">B.</span><span class="ot">O estímulo inflamatório da placa recruta células musculares lisas para a íntima; essas células proliferam por hiperplasia e sintetizam colágeno, formando a capa fibrosa da placa.</span></div>
+  <div class="opt" onclick="sel(46,'c')"><span class="ok">C.</span><span class="ot">As células musculares lisas vasculares secretam eritropoetina que recruta hemácias para o interior da placa, gerando hemorragia intraplaca e acelerando a ruptura da capa fibrosa.</span></div>
+  <div class="opt" onclick="sel(46,'d')"><span class="ok">D.</span><span class="ot">As células musculares lisas não participam da formação da placa — apenas macrófagos, plaquetas e células endoteliais compõem o tecido fibrolipídico da lesão aterosclerótica.</span></div>
+</div>
+<div class="fb" id="f46"></div>
+<button class="cb" id="b46" onclick="chk(46)">Verificar</button>
+</div>
+
+<!-- Q47 — gabarito A -->
+<div class="qb">
+<div class="ql">Questão 47</div>
+<div class="cs">Paciente de 60 anos com hipercolesterolemia familiar apresenta xantelasmas bilaterais — depósitos amarelados planos na pele das pálpebras.</div>
+<div class="qc">O que torna os xantelasmas visíveis na pálpebra, diferentemente de outras localizações do mesmo processo?</div>
+<div class="opts" id="o47">
+  <div class="opt" onclick="sel(47,'a')"><span class="ok">A.</span><span class="ot">A pele da pálpebra é extremamente fina, tornando os depósitos de macrófagos xantomizados visíveis a olho nu — o mesmo processo ocorre em outros locais, mas não é visível pela espessura da pele.</span></div>
+  <div class="opt" onclick="sel(47,'b')"><span class="ok">B.</span><span class="ot">A pálpebra tem maior densidade de macrófagos por sua função imunológica protetora do olho, acumulando mais LDL que outros tecidos e formando depósitos de tamanho detectável.</span></div>
+  <div class="opt" onclick="sel(47,'c')"><span class="ok">C.</span><span class="ot">A pálpebra tem circulação linfática exclusiva que concentra LDL oxidado no tecido subcutâneo palpebral, diferentemente dos demais tecidos irrigados pela circulação arterial.</span></div>
+  <div class="opt" onclick="sel(47,'d')"><span class="ok">D.</span><span class="ot">O calor produzido pelo globo ocular favorece a precipitação de colesterol na pele palpebral por desnaturação térmica do LDL, processo que não ocorre em tecidos com temperatura menor.</span></div>
+</div>
+<div class="fb" id="f47"></div>
+<button class="cb" id="b47" onclick="chk(47)">Verificar</button>
+</div>
+
+<!-- Q48 — gabarito D -->
+<div class="qb">
+<div class="ql">Questão 48</div>
+<div class="cs">Paciente jovem com lúpus e vasculite lúpica desenvolve lesão renal aguda grave. O nefrologista explica que a inflamação dos vasos renais comprometeu o fluxo sanguíneo para os túbulos proximais.</div>
+<div class="qc">O tipo de lesão tubular esperada no estágio inicial e o que a tornaria irreversível se persistisse são:</div>
+<div class="opts" id="o48">
+  <div class="opt" onclick="sel(48,'a')"><span class="ok">A.</span><span class="ot">Esteatose tubular inicial (acúmulo de triglicérides) progredindo para lipidose (acúmulo de colesterol em macrófagos intersticiais) → tornam-se irreversíveis com a fibrose tubulointersticial.</span></div>
+  <div class="opt" onclick="sel(48,'b')"><span class="ok">B.</span><span class="ot">Hipertrofia dos túbulos proximais como resposta adaptativa à isquemia → seguida de apoptose sincronizada quando a adaptação é ultrapassada → fibrose intersticial difusa.</span></div>
+  <div class="opt" onclick="sel(48,'c')"><span class="ok">C.</span><span class="ot">Metaplasia dos túbulos proximais para epitélio escamoso → seguida de displasia tubular → fibrose intersticial difusa com perda permanente da função de filtração.</span></div>
+  <div class="opt" onclick="sel(48,'d')"><span class="ok">D.</span><span class="ot">Degeneração hidrópica dos túbulos proximais (hipóxia → queda de ATP → falha da bomba → acúmulo de água), reversível com reperfusão. Irreversível com ruptura de lisossomos e mitocôndrias → necrose tubular aguda.</span></div>
+</div>
+<div class="fb" id="f48"></div>
+<button class="cb" id="b48" onclick="chk(48)">Verificar</button>
+</div>
+
+<!-- Q49 — gabarito C -->
+<div class="qb">
+<div class="ql">Questão 49</div>
+<div class="cs">Um estudante lê na transcrição: "Displasia pode ser consequência de uma metaplasia que permanece sob estímulo crônico." Ele recorda que a professora alertou que nem toda metaplasia progride para displasia, e que há diferença conceitual fundamental entre os dois processos.</div>
+<div class="qc">A diferença conceitual correta entre metaplasia e displasia é:</div>
+<div class="opts" id="o49">
+  <div class="opt" onclick="sel(49,'a')"><span class="ok">A.</span><span class="ot">Metaplasia e displasia são sinônimos utilizados em contextos diferentes — ambas representam substituição de tipo celular sob estímulo crônico, sendo a displasia o estágio avançado da metaplasia.</span></div>
+  <div class="opt" onclick="sel(49,'b')"><span class="ok">B.</span><span class="ot">Metaplasia é irreversível e sempre precursora direta de câncer; displasia é completamente reversível quando o estímulo é removido e nunca progride para neoplasia.</span></div>
+  <div class="opt" onclick="sel(49,'c')"><span class="ok">C.</span><span class="ot">Metaplasia: substituição de tipo celular maduro por outro maduro, ambos diferenciados — é adaptação. Displasia: perda da diferenciação celular normal com atipias — não é adaptação, é lesão precursora de neoplasia.</span></div>
+  <div class="opt" onclick="sel(49,'d')"><span class="ok">D.</span><span class="ot">Metaplasia: indiferenciação celular com atipias nucleares e celulares. Displasia: substituição de tipo celular sem atipias e sem perda de diferenciação — o contrário do que erroneamente se ensina.</span></div>
+</div>
+<div class="fb" id="f49"></div>
+<button class="cb" id="b49" onclick="chk(49)">Verificar</button>
+</div>
+
+<!-- Q50 — gabarito B -->
+<div class="qb">
+<div class="ql">Questão 50</div>
+<div class="cs">A professora encerra o módulo com um caso síntese: paciente obeso, diabético, dislipidêmico e hipertenso por anos, que evolui com infarto agudo do miocárdio extenso.</div>
+<div class="af">
+<p>I — O perfil metabólico contribuiu para a formação de placas coronarianas: LDL elevado → macrófagos xantomizados → inflamação → placa fibrosa → capa vulnerável.</p>
+<p>II — A oclusão aguda gerou: hipóxia → queda de ATP → falha da bomba → degeneração hidrópica (reversível com reperfusão precoce) → sem reperfusão → ruptura de organelas → necrose de coagulação irreversível.</p>
+<p>III — A área infartada será substituída por fibrose cicatricial, e o miocárdio remanescente pode desenvolver hipertrofia compensatória.</p>
+</div>
+<div class="qc">Assinale a alternativa correta:</div>
+<div class="opts" id="o50">
+  <div class="opt" onclick="sel(50,'a')"><span class="ok">A.</span><span class="ot">Apenas I, pois a degeneração hidrópica nunca é reversível no miocárdio e a fibrose pós-infarto impede qualquer hipertrofia compensatória do miocárdio adjacente.</span></div>
+  <div class="opt" onclick="sel(50,'b')"><span class="ok">B.</span><span class="ot">I, II e III, pois a cadeia aterosclerótica, a cascata isquêmica e as consequências pos-necrose — fibrose e hipertrofia compensatória — integram corretamente todos os conceitos do módulo.</span></div>
+  <div class="opt" onclick="sel(50,'c')"><span class="ok">C.</span><span class="ot">I e III apenas, pois a degeneração hidrópica no miocárdio é sempre irreversível — não existe janela de oportunidade para reperfusão salvar cardiomiócitos.</span></div>
+  <div class="opt" onclick="sel(50,'d')"><span class="ok">D.</span><span class="ot">II e III apenas, pois o perfil metabólico isolado não causa placas coronarianas sem um gatilho inflamatório adicional independente da hipercolesterolemia.</span></div>
+</div>
+<div class="fb" id="f50"></div>
+<button class="cb" id="b50" onclick="chk(50)">Verificar</button>
+</div>
+
+</div><!-- fim sec-obj -->
+
+<div class="orn">— ✦ —</div>
+
+<!-- ══════ PARTE II ══════ -->
+<div id="sd">
+<div class="sh"><div class="st">Parte II</div><div class="stt">Questões Dissertativas</div><div class="sn">Escreva sua resposta e confronte com o gabarito orientador.</div></div>
+
+<!-- D1 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 1</div>
+<div class="cs">Paciente do sexo feminino, 48 anos, obesa, sedentária, pré-diabética, admitida com icterícia e abdome doloroso. Exames: AST e ALT muito acima dos valores de referência, bilirrubina total elevada com predomínio da fração indireta, triglicérides e colesterol muito aumentados, glicemia bem acima do normal. Ultrassonografia: fígado com ecogenicidade moderadamente elevada de forma difusa. Nega etilismo e tabagismo.</div>
+<div class="dq">
+<p>a) Os dados clínicos e de exames sugerem qual diagnóstico hepático? Justifique com base nos achados.</p>
+<p>b) A elevação de AST e ALT evidencia qual processo celular nos hepatócitos?</p>
+<p>c) O tratamento do quadro metabólico (diabetes, dislipidemia) é critério central para a recuperação hepática? Explique o raciocínio fisiopatológico.</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Doença Hepática Gordurosa Não Alcoólica (DHGNA) / esteato-hepatite não alcoólica (NASH). Justificativa: obesidade + pré-diabetes = resistência insulínica como fator central; triglicérides e colesterol muito elevados = dislipidemia grave; glicemia confirmando DM2 não controlado; fígado com ecogenicidade difusamente aumentada ao ultrassom = sinal de esteatose; AST e ALT elevadas indicando inflamação e necrose de hepatócitos; nega etilismo — exclui causa alcoólica.</p>
+<p><strong>b)</strong> A elevação de transaminases indica lesão e morte de hepatócitos. As transaminases são enzimas intracelulares; quando os hepatócitos são lesados e suas membranas se rompem, essas enzimas extravasam para a corrente sanguínea. Isso evidencia que a esteatose progrediu para esteato-hepatite com atividade necroinflamatória ativa.</p>
+<p><strong>c)</strong> Sim. A resistência à insulina do DM2 aumenta a lipólise e a lipogênese hepática, gerando excesso de ácidos graxos livres que sobrecarregam o fígado e se acumulam como triglicérides nos hepatócitos (esteatose). Controlar o DM e a dislipidemia reduz o aporte de ácidos graxos ao fígado, permitindo que os hepatócitos revertam a esteatose — processo reversível se tratado antes da fibrose estabelecida.</p>
+</div>
+</div>
+
+<!-- D2 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 2</div>
+<div class="cs">Doente do sexo masculino, 49 anos, obeso há vários anos, diabético sem tratamento há 3 anos. Tabagista. Pressão arterial muito elevada. Ultrassom: hiperecogenicidade difusa do parênquima hepático com hepatomegalia. Biópsia: vacúolos lipídicos grandes nos hepatócitos deslocando o núcleo para a periferia, inflamação estromal com células mononucleares e material amorfo hialino intracitoplasmático.</div>
+<div class="dq">
+<p>a) Quais são os fatores de risco para o desenvolvimento desta doença?</p>
+<p>b) Interprete a elevação das enzimas hepáticas.</p>
+<p>c) Correlacione a obesidade e o diabetes com o quadro hepático.</p>
+<p>d) Descreva a fisiopatologia da doença hepática neste paciente.</p>
+<p>e) Qual o diagnóstico da biópsia?</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Obesidade, DM2 não tratado (resistência insulínica), dislipidemia grave, tabagismo, hipertensão arterial sistêmica, histórico familiar, alimentação inadequada.</p>
+<p><strong>b)</strong> AST, ALT e GGT elevadas = necrose e lesão de hepatócitos. Quando hepatócitos são danificados suas membranas se rompem e liberam essas enzimas intracelulares para o sangue. A etiologia é metabólica.</p>
+<p><strong>c)</strong> Obesidade → excesso de tecido adiposo → lipólise aumentada → ácidos graxos livres chegam ao fígado em excesso. DM2 → resistência insulínica → hiperinsulinemia → estimula lipogênese hepática de novo e impede exportação adequada de VLDL → triglicérides acumulam nos hepatócitos.</p>
+<p><strong>d)</strong> Resistência insulínica → excesso de ácidos graxos livres hepáticos → acúmulo de triglicérides nos hepatócitos (1º golpe: esteatose) → triglicérides geram estresse oxidativo mitocondrial e ativação de citocinas → inflamação estromal e necrose de hepatócitos (2º golpe: esteato-hepatite). Corpúsculos de Mallory = agregados de citoqueratina desnaturada em hepatócitos lesados.</p>
+<p><strong>e)</strong> Esteato-hepatite não alcoólica (NASH). Achados definidores: esteatose macrovacuolar (vacúolos grandes deslocando núcleo para a periferia) + inflamação estromal mononuclear + corpúsculos de Mallory.</p>
+</div>
+</div>
+
+<!-- D3 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 3</div>
+<div class="cs">Paciente F. J., 30 anos, negro, auxiliar de bombeiro. Admitido sem vida após dor precordial súbita ao esforço. Biomarcadores cardíacos muito elevados. Triglicérides gravíssimos, glicemia muito elevada. Necropsia: necrose anterosseptal extensa, duas cicatrizes fibróticas antigas e uma área em transição necrose-fibrose. Coronárias com placas volumosas na interventricular anterior com capa fibrosa acentuadamente afilada sobre extenso núcleo lipídico.</div>
+<div class="dq">
+<p>a) Qual a causa da morte dos cardiomiócitos neste caso? Descreva a fisiopatologia.</p>
+<p>b) Descreva os achados de uma biópsia caso fosse realizada neste caso.</p>
+<p>c) Interprete e correlacione os exames laboratoriais com o quadro clínico.</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Isquemia miocárdica aguda por oclusão coronariana sobre placa vulnerável. A capa fibrosa afilada se rompeu ao esforço → núcleo lipídico exposto → trombo agudo → oclusão da interventricular anterior → hipóxia → queda de ATP → falha da bomba Na+/K+ → degeneração hidrópica → sem reperfusão → ruptura de organelas → necrose de coagulação. As duas cicatrizes fibróticas confirmam infartos prévios silenciosos em jovem com dislipidemia gravíssima e DM não diagnosticado.</p>
+<p><strong>b)</strong> Necrose de coagulação aguda: cardiomiócitos com contornos preservados, perda de estriações, citoplasma eosinofílico homogêneo, núcleos picnóticos ou ausentes, infiltrado neutrofílico nas bordas. Área fibrótica antiga: colágeno denso substituindo cardiomiócitos. Área em transição: macrófagos fagocitando debris, fibroblastos jovens, neovascularização.</p>
+<p><strong>c)</strong> Troponina muito elevada: marcador de necrose miocárdica — enzima intracelular liberada pela ruptura dos cardiomiócitos. Triglicérides gravíssimos: principal motor da aterosclerose acelerada que gerou doença coronariana grave aos 30 anos. Glicemia muito elevada: DM2 provavelmente não diagnosticado — segundo fator acelerador da aterosclerose.</p>
+</div>
+</div>
+
+<!-- D4 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 4</div>
+<div class="cs">Doente do sexo masculino, 34 anos, com lesões amareladas no corpo há 25 dias. Diabético tipo 2. Pápulas e nódulos amarelados com halo eritematoso no abdome, dorso, glúteos e coxas. Triglicérides gravíssimos, glicemia de jejum confirmando DM, colesterol total muito aumentado, HDL muito abaixo do desejável. Biópsia das lesões: macrófagos com citoplasma espumoso repleto de vacúolos lipídicos no tecido conjuntivo dérmico.</div>
+<div class="dq">
+<p>a) Observe a biópsia e descreva quais alterações revelam a patologia. Nomeie os achados histológicos clássicos.</p>
+<p>b) Correlacione os exames laboratoriais com a patologia observada.</p>
+<p>c) Qual o tratamento aplicado a este caso?</p>
+<p>d) A quais riscos está submetido este paciente?</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Xantomatose eruptiva. Achados histológicos: macrófagos xantomizados (células espumosas) — macrófagos com citoplasma amplo espumoso repleto de vacúolos lipídicos intracitoplasmáticos não degradados. Infiltrado inflamatório perilesional (explica o halo eritematoso).</p>
+<p><strong>b)</strong> Triglicérides gravíssimos: excesso captado por macrófagos dérmicos que não conseguem degradá-los → macrófagos xantomizados → xantomas eruptivos. HDL muito baixo: agrava o risco cardiovascular. DM2: a resistência insulínica causa lipólise aumentada e hipertrigliceridemia secundária.</p>
+<p><strong>c)</strong> Controle glicêmico rigoroso (base da correção da hipertrigliceridemia secundária ao DM); fibratos para reduzir triglicérides; dieta com restrição de gorduras e carboidratos simples. Os xantomas regridem com normalização dos lipídios.</p>
+<p><strong>d)</strong> Pancreatite aguda grave (triglicérides gravíssimos); aterosclerose acelerada com risco de infarto e AVC; complicações do DM (retinopatia, nefropatia, neuropatia); xantomatose visceral progressiva se não tratado.</p>
+</div>
+</div>
+
+<!-- D5 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 5</div>
+<div class="cs">Paciente de 65 anos, hipertenso e diabético crônicos, em choque cardiogênico com pressão muito baixa e oligúria. Gasometria: acidose metabólica grave com lactato muito elevado. Ecocardiograma: fração de ejeção gravemente reduzida. Exames: AST e ALT muito elevadas, creatinina muito elevada, troponina gravíssima.</div>
+<div class="dq">
+<p>a) Quais órgãos estão em sofrimento isquêmico? Justifique com base nos exames.</p>
+<p>b) Descreva a lesão celular esperada em cada órgão afetado.</p>
+<p>c) Por que o lactato elevado agrava a lesão celular, integrando os conceitos de glicólise anaeróbica das aulas?</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Coração: troponina gravíssima + FE reduzida = necrose de cardiomiócitos. Fígado: AST e ALT muito elevadas = hepatite isquêmica por hipoperfusão. Rim: creatinina muito elevada + oligúria = lesão renal aguda isquêmica. Tecidos periféricos: lactato gravíssimo = hipoperfusão sistêmica com metabolismo anaeróbico generalizado.</p>
+<p><strong>b)</strong> Em todos os órgãos: hipoperfusão → hipóxia → queda de ATP → falha da bomba Na+/K+ → degeneração hidrópica (reversível se reperfusão). Com persistência: ruptura de lisossomos e mitocôndrias → necrose. No miocárdio: necrose de coagulação. No rim: necrose tubular aguda. No fígado: necrose centrolobular.</p>
+<p><strong>c)</strong> Sem O2, a glicólise anaeróbica converte piruvato em lactato, produzindo muito menos ATP que a via aeróbica. O acúmulo de lactato acidifica o pH intracelular. A acidose inativa enzimas essenciais ao metabolismo, desnatura proteínas estruturais e funcionais, agrava a disfunção mitocondrial e inibe as bombas iônicas residuais. O lactato não é apenas consequência da hipóxia — amplifica ativamente a lesão, criando ciclo vicioso que acelera a progressão para necrose irreversível.</p>
+</div>
+</div>
+
+<!-- D6 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 6</div>
+<div class="cs">Paciente de 55 anos, com antecedente de infarto há 8 anos e coronariopatia multiarterial. Iniciou reabilitação cardíaca aeróbica há um ano. Ecocardiograma atual: hipertrofia leve do ventrículo esquerdo com câmaras levemente maiores e função sistólica excelente. O cardiologista comenta que "parte dessa hipertrofia é fisiológica e parte é patológica residual."</div>
+<div class="dq">
+<p>a) Diferencie a hipertrofia fisiológica (exercício) da hipertrofia patológica (hipertensão prévia) neste paciente.</p>
+<p>b) O que ocorreu na área de infarto antigo? Descreva o processo histológico de substituição.</p>
+<p>c) Por que o coração não regenera o miocárdio perdido pelo infarto, ao contrário do fígado?</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Fisiológica (exercício): estímulo controlado → hipertrofia excêntrica leve (câmaras maiores, cardiomiócitos alongados em série) → sem fibrose, sem disfunção, reversível. Patológica (hipertensão): sobrecarga contínua → hipertrofia concêntrica (paredes espessas, câmara reduzida) → com fibrose intersticial → disfunção diastólica progressiva → risco de insuficiência cardíaca.</p>
+<p><strong>b)</strong> Necrose de coagulação dos cardiomiócitos → macrófagos fagocitaram debris necróticos → fibroblastos migraram e sintetizaram colágeno → fibrose cicatricial densa e avascular permanente. Área funcionalmente inativa — não contrai.</p>
+<p><strong>c)</strong> Cardiomiócitos são células permanentes: capacidade de divisão mitótica praticamente nula. Após necrose, não há fonte celular para substituir o tecido → fibrose cicatricial. O fígado possui hepatócitos classificados como células estáveis: têm capacidade proliferativa latente ativada quando o tecido é lesado. A classificação proliferativa determina tudo: estáveis se dividem sob estímulo; permanentes não se dividem.</p>
+</div>
+</div>
+
+<!-- D7 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 7</div>
+<div class="cs">O professor apresenta: "A bomba Na+/K+-ATPase usa ATP para manter o sódio alto fora da célula e o potássio alto dentro. Quando o ATP falha, ela para. Quando ela para, o sódio acumula dentro. Quando o sódio acumula, a água entra por osmose. Isso é a degeneração hidrópica."</div>
+<div class="dq">
+<p>a) Explique o papel do ATP e da bomba Na+/K+ na manutenção da homeostase hídrica intracelular.</p>
+<p>b) Cite três causas clínicas distintas que levam à falha de ATP e desencadeiam degeneração hidrópica.</p>
+<p>c) Qual é a diferença entre degeneração hidrópica e edema? Por que essa distinção é clinicamente importante?</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> A bomba usa 1 ATP para expulsar 3 Na+ e captar 2 K+. Mantém Na+ baixo intracelularmente. O gradiente de Na+ (alto fora, baixo dentro) impede que o sódio entre em excesso. A água segue o sódio por osmose — ao manter Na+ baixo dentro, a célula não atrai água excessiva. Quando o ATP acaba: bomba para → Na+ acumula → osmolaridade intracelular aumenta → água entra → célula incha = degeneração hidrópica.</p>
+<p><strong>b)</strong> (1) Isquemia por obstrução coronariana — sem O2 a cadeia respiratória para. (2) Sepse grave com choque — hipoperfusão tecidual sistêmica. (3) Envenenamento por monóxido de carbono — CO impede transporte de O2 pela hemoglobina.</p>
+<p><strong>c)</strong> Degeneração hidrópica = aumento de água INTRACELULAR (dentro da célula). Edema = aumento de água INTERSTICIAL (entre as células). Importância clínica: o edema responde a diuréticos (reduzem fluido extracelular); a degeneração hidrópica não responde a diuréticos — requer restauração do ATP (reperfusão, correção de hipóxia). Confundir os dois leva a tratamentos completamente equivocados.</p>
+</div>
+</div>
+
+<!-- D8 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 8</div>
+<div class="cs">A professora propõe comparar a resposta de um cardiomiócito e de um hepatócito à mesma lesão isquêmica aguda grave, e depois comparar a capacidade de recuperação após a necrose estabelecida.</div>
+<div class="dq">
+<p>a) Descreva o que ocorre em ambas as células durante a isquemia aguda — é o mesmo processo? Justifique.</p>
+<p>b) Compare o destino do tecido após necrose estabelecida no miocárdio versus no fígado.</p>
+<p>c) Explique por que a hipertrofia cardíaca do atleta é fisiológica enquanto a do hipertenso é patológica.</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Sim, o processo é o mesmo: isquemia → hipóxia → queda de ATP → falha da bomba → degeneração hidrópica → (sem reperfusão) → ruptura de organelas → necrose. A lesão celular isquêmica segue a mesma cascata universal independente do tipo celular. O que muda é a consequência após a necrose.</p>
+<p><strong>b)</strong> Miocárdio: cardiomiócitos são permanentes → após necrose → macrófagos removem debris → fibroblastos sintetizam colágeno → fibrose cicatricial definitiva → sem recuperação funcional. Fígado: hepatócitos são estáveis → após necrose → hepatócitos remanescentes entram em divisão sob estímulo regenerativo → regeneração hepática significativa → possível recuperação funcional.</p>
+<p><strong>c)</strong> Atleta: estímulo fisiológico controlado → hipertrofia excêntrica → câmaras maiores, cardiomiócitos alongados, SEM fibrose, SEM disfunção → coração eficiente. Hipertenso: sobrecarga patológica contínua → hipertrofia concêntrica → câmara reduzida, COM fibrose intersticial progressiva → disfunção diastólica, risco de insuficiência cardíaca. A causa e as consequências funcionais são opostas.</p>
+</div>
+</div>
+
+<!-- D9 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 9</div>
+<div class="cs">A professora exibe lâmina com parede de coronária quase ocluída. Na placa: macrófagos com citoplasma espumoso, tecido conjuntivo fibrótico abundante, material granular basofílico e capa fibrosa delgada sobre extenso núcleo lipídico.</div>
+<div class="dq">
+<p>a) Identifique e nomeie cada componente da placa descrito na lâmina.</p>
+<p>b) Por que a placa é "vulnerável"? Qual é o risco imediato?</p>
+<p>c) Descreva como essa placa teria se formado desde o LDL elevado até o estágio atual.</p>
+</div>
+<textarea class="da" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p><strong>a)</strong> Macrófagos com citoplasma espumoso = macrófagos xantomizados (células espumosas) — fagocitaram LDL, não conseguiram degradá-lo. Tecido conjuntivo fibrótico = capa fibrosa produzida por células musculares lisas e fibroblastos. Material granular basofílico = calcificação distrófica — depósito de cálcio em tecido necrótico da placa, sem hipercalcemia. Capa fibrosa delgada sobre núcleo lipídico = placa vulnerável.</p>
+<p><strong>b)</strong> A capa fibrosa afilada tem baixa resistência mecânica → pode romper com esforço físico → núcleo lipídico trombogênico exposto ao sangue → ativação da coagulação → trombo agudo → oclusão arterial súbita → infarto ou AVC.</p>
+<p><strong>c)</strong> LDL elevado → penetra no subendotélio → macrófagos fagocitam → macrófagos xantomizados → disparam citocinas inflamatórias → células musculares lisas migram para íntima e sintetizam colágeno → placa fibrosa → macrófagos morrem → núcleo lipídico necrótico → calcificação distrófica → metaloproteinases afeinam a capa → placa vulnerável → ruptura → trombo → infarto.</p>
+</div>
+</div>
+
+<!-- D10 -->
+<div class="db">
+<div class="ql">Questão Dissertativa 10</div>
+<div class="cs">A professora encerra o módulo: "Todos os casos que vimos se conectam. Há uma lógica. O corpo tenta se adaptar — hipertrofia, hiperplasia, metaplasia. Quando não consegue mais, a célula degenera. Quando a degeneração passa do ponto de retorno, a célula morre. E quando morre, o corpo deixa uma cicatriz ou, se tiver sorte, regenera."</div>
+<div class="dq">
+<p>a) Com base nessa síntese, crie um paciente hipotético com múltiplos fatores de risco e descreva a progressão desde a exposição ao agente agressor até a morte celular irreversível, passando pelas tentativas de adaptação — integrando todos os conceitos das aulas de forma lógica e sequencial.</p>
+</div>
+<textarea class="da" style="min-height:200px" placeholder="Escreva sua resposta aqui..."></textarea>
+<button class="gb" onclick="tog(this)">Ver gabarito orientador</button>
+<div class="gx"><strong>Gabarito Orientador</strong>
+<p>Paciente: homem de 52 anos, obeso, diabético, hipertenso não tratado, tabagista, sedentário, com dislipidemia grave.</p>
+<p><strong>1 — Formação da placa:</strong> LDL elevado → macrófagos vasculares fagocitam → xantomização → células espumosas na coronária → inflamação crônica → placa aterosclerótica + calcificação distrófica nas áreas necróticas da placa.</p>
+<p><strong>2 — Adaptações cardíacas:</strong> hipertensão → sobrecarga de pressão → cardiomiócitos (permanentes) respondem por hipertrofia concêntrica patológica → câmara reduz → débito comprometido. Rim detecta hipóxia relativa → libera eritropoetina → medula faz hiperplasia de eritrócitos → compensação da hipóxia relativa.</p>
+<p><strong>3 — Evento agudo:</strong> placa vulnerável se rompe ao esforço → trombo → oclusão → hipóxia → queda de ATP → bomba Na+/K+ falha → Na+ acumula → água entra → DEGENERAÇÃO HIDRÓPICA (reversível se reperfusão imediata).</p>
+<p><strong>4 — Irreversibilidade:</strong> glicólise anaeróbica → lactato → acidose → inativa enzimas. Ca2+ intracelular aumenta → ativa fosfolipases. Figuras de mielina (membrana desfaz). Lisossomos e mitocôndrias rompem → PONTO DE IRREVERSIBILIDADE → necrose de coagulação. Troponina sobe no sangue.</p>
+<p><strong>5 — Consequências:</strong> área necrosada → macrófagos removem debris → fibroblastos produzem colágeno → fibrose cicatricial definitiva. Miocárdio restante → hipertrofia excêntrica compensatória. A soma de adaptação + degeneração + morte + cicatriz é a anatomia patológica da doença cardiovascular aterosclerótica.</p>
+</div>
+</div>
+
+</div><!-- fim sec-dis -->
+</main>
+</div>
+
+<script>
+// ── Gabaritos e feedbacks armazenados em objeto JS (sem strings no onclick) ──
+var ANS = {
+  1:'d',2:'c',3:'a',4:'b',5:'d',6:'c',7:'a',8:'b',9:'d',10:'c',
+  11:'a',12:'d',13:'c',14:'b',15:'a',16:'d',17:'c',18:'b',19:'a',20:'d',
+  21:'c',22:'b',23:'a',24:'d',25:'c',26:'b',27:'a',28:'d',29:'c',30:'b',
+  31:'a',32:'d',33:'c',34:'b',35:'a',36:'d',37:'c',38:'b',39:'a',40:'d',
+  41:'c',42:'b',43:'a',44:'d',45:'c',46:'b',47:'a',48:'d',49:'c',50:'b'
+};
+var EXP = {
+  1:'I, II e III corretas. O perfil metabólico + eco com ecogenicidade difusa + negação de etilismo = DHGNA. Transaminases são enzimas intracelulares — elevação indica necrose de hepatócitos. A resistência insulínica do DM é o motor da esteatose; controlá-la reduz o afluxo de ácidos graxos ao fígado.',
+  2:'NASH: esteatose macrovacuolar (vacúolos grandes de triglicérides deslocando o núcleo) + inflamação estromal + corpúsculos de Mallory (citoqueratina desnaturada = material amorfo hialino). Esteatose = triglicérides em hepatócitos; lipidose = colesterol em macrófagos — entidades distintas.',
+  3:'A capa fibrosa afilada rompe ao esforço → núcleo lipídico trombogênico exposto → trombo agudo → oclusão. A cadeia: isquemia → hipóxia → queda de ATP → bomba Na+/K+ falha → degeneração hidrópica → sem reperfusão → ruptura de organelas → ponto de irreversibilidade → necrose de coagulação.',
+  4:'I e II corretas. Macrófago xantomizado = macrófago que fagocitou LDL e não conseguiu degradar → inclusão lipídica → citoplasma espumoso. Na pele = xantoma; na coronária = placa aterosclerótica. III errada: o DM2 causa resistência insulínica que aumenta a lipólise e eleva triglicérides — controlar o DM é fundamental.',
+  5:'I, II e III corretas. A hipertrofia concêntrica é adaptação patológica (I). Cardiomiócitos são permanentes, respondem por hipertrofia não hiperplasia (II). A fibrose cicatricial miocárdica é irreversível — colágeno substituiu cardiomiócitos que não se regeneram (III).',
+  6:'Concêntrica (sobrecarga de pressão → paredes espessas → câmara reduzida → débito cai) progredindo para excêntrica (câmaras dilatadas → cardiomiócitos alongados em série → disfunção sistólica). Progressão clássica da hipertensão não tratada.',
+  7:'A cadeia: rins doentes → menos eritropoetina → medula não estimulada → menos hemácias → anemia → hipóxia → queda de ATP → falha da bomba → degeneração hidrópica. A eritropoetina é o hormônio renal que comanda a hiperplasia eritroide na medula.',
+  8:'Menor pressão de O2 na altitude → rins detectam hipóxia → liberam eritropoetina → medula recebe o sinal → HIPERPLASIA de eritrócitos (células lábeis) → mais hemácias circulantes. Exemplo clássico de hiperplasia fisiológica hormonal.',
+  9:'I, II e III corretas. (I) Mecanismo correto: falha da bomba por queda de ATP. (II) Reversibilidade confirmada pela normalização funcional. (III) Sem reversão → ruptura de organelas → ponto de irreversibilidade → necrose.',
+  10:'A bomba Na+/K+-ATPase mantém Na+ alto fora e K+ alto dentro. Distúrbios séricos sinalizam disfunção da bomba e risco de degeneração hidrópica. Desequilíbrios eletrolíticos são um espelho indireto do que ocorre intracelularmente.',
+  11:'LDL em excesso é fagocitado por macrófagos que reconhecem como antígeno → não degradado → permanece como inclusão → macrófago xantomizado. O xantoma é uma coleção visível de macrófagos xantomizados. Colesterol precipita diretamente só ocorre em calcificação, não em xantoma.',
+  12:'A capa fibrosa delgada tem baixa resistência mecânica → pode romper ao esforço → núcleo lipídico trombogênico exposto → trombo agudo → infarto súbito. Placas com capa fina são mais perigosas que placas calcificadas estáveis com capa espessa.',
+  13:'I e III corretas. II errada: a fibrose miocárdica NÃO é substituída por cardiomiócitos — são células permanentes que não se regeneram. A cicatriz é permanente e funcionalmente inativa. O miocárdio adjacente pode hipertrofiar como compensação.',
+  14:'Ecogenicidade aumentada = fígado gorduroso = esteatose. A resistência insulínica do DM2 + obesidade → excesso de ácidos graxos livres → fígado não consegue exportar como VLDL → acúmulo de triglicérides nos hepatócitos.',
+  15:'Metaplasia: mudança de tipo celular maduro (escamoso) para outro maduro (colunar) em resposta ao estresse crônico ácido. O Barrett é o exemplo clássico. Progressão possível: metaplasia → displasia → neoplasia. Não é ainda neoplasia.',
+  16:'Sem O2 → glicólise anaeróbica → piruvato convertido a lactato → acidose intracelular → inativa enzimas, desestabiliza proteínas → agrava o colapso energético. A acidose láctica é consequência e amplificador da lesão hipóxica.',
+  17:'Calcificação distrófica = depósito de cálcio em tecido doente ou necrótico, sem hipercalcemia sistêmica. O cálcio precipita no tecido valvar danificado pela inflamação reumática crônica. Outros exemplos: placas ateroscleróticas, gordura necrótica.',
+  18:'Músculo cardíaco: núcleos centrais + discos intercalares + células ramificadas. Músculo esquelético: núcleos periféricos (empurrados pelas miofibrilas), fibras longas sem ramificação. Ambos têm estriações transversais.',
+  19:'A ruptura de organelas (lisossomos, mitocôndrias, retículo) com liberação de enzimas líticas no citoplasma marca o ponto de irreversibilidade. Antes (falha de bomba, acidose) = ainda reversível se restaurado o ATP.',
+  20:'I, II e III corretas. O achado é hipertrofia patológica do detrusor (I). Morfologicamente similar à fisiológica, distinguida pela causa (II). É adaptação reversível: removido o estressor a célula pode retornar ao volume normal (III).',
+  21:'Agregados de filamentos intermediários de citoqueratina desnaturada = corpúsculos de Mallory. Marcadores de lesão hepática crônica grave, clássicos da hepatopatia alcoólica e NASH. Não são depósitos de bile nem inclusões virais.',
+  22:'Lábeis (enterócitos) → regeneração por hiperplasia. Estáveis (hepatócitos) → regeneração por hiperplasia sob estímulo. Permanentes (cardiomiócitos, neurônios) → sem regeneração, necrose substituída por fibrose.',
+  23:'Hipertrofia excêntrica fisiológica: câmaras maiores, cardiomiócitos alongados (sarcômeros em série), SEM fibrose, SEM disfunção. Difere da patológica (hipertensão): concêntrica, COM fibrose intersticial, COM disfunção progressiva.',
+  24:'A estatina inibe a enzima hepática que produz LDL → menos LDL circulante → desacelera formação de novas placas. As placas preexistentes permanecem — risco de ruptura e trombose persiste. Ela não dissolve nem reverte placas já formadas.',
+  25:'A fluidez membranar permite o funcionamento das proteínas transportadoras. Agentes que alteram a composição lipídica da bicamada comprometem a bomba Na+/K+ → acúmulo de Na intracelular → entrada de água → degeneração hidrópica.',
+  26:'I e II corretas. III errada: cardiomiócitos são células permanentes — não se regeneram por hiperplasia. A área de necrose é substituída por fibrose cicatricial definitiva, não por novos cardiomiócitos.',
+  27:'Necrose de coagulação → macrófagos removem debris → fibroblastos migram e sintetizam colágeno → fibrose cicatricial definitiva. As cicatrizes antigas confirmam infartos silenciosos prévios e indicam doença coronariana crônica grave.',
+  28:'A intensidade e a duração do estressor determinam a reversibilidade. No primeiro: ATP é restaurado antes da ruptura de organelas (fase reversível). No segundo: isquemia persiste até ruptura de lisossomos e mitocôndrias — ponto de irreversibilidade cruzado.',
+  29:'A raça negra tem tendência genética a apresentar contagem leucocitária basal menor — o que pode ser normal para aquele indivíduo. Contexto clínico + hereditariedade são essenciais para interpretar o hemograma.',
+  30:'A lipase pancreática cliva os triglicérides em excesso nos capilares pancreáticos → libera ácidos graxos livres → diretamente citotóxicos às células acinares → lesão celular → inflamação → necrose pancreática.',
+  31:'Esteatose: triglicérides em hepatócitos (célula parenquimatosa hepática). Lipidose/xantomatose: colesterol LDL em macrófagos (vasos, derme, tendões). Dois processos distintos: célula diferente, lipídio diferente, localização diferente.',
+  32:'Neurônios são células permanentes — não se regeneram significativamente após lesão. A área infartada será substituída por gliose cicatricial, com perda permanente da função neurológica correspondente ao território acometido.',
+  33:'Infarto do miocárdio = necrose de coagulação (proteínas coagulam, contorno celular preservado, tecido firme). Infarto cerebral = necrose de liquefação (tecido nervoso rico em lipídios e enzimas proteolíticas → dissolução completa → cavidade cística).',
+  34:'Choque → hipoperfusão → hipóxia → queda de ATP → falha da bomba → degeneração hidrópica → sem reversão → ruptura de organelas → necrose → falência de múltiplos órgãos. O lactato elevado confirma o metabolismo anaeróbico disseminado.',
+  35:'A hipertrofia é adaptação reversível: removido o estressor, a célula pode retornar ao volume normal. Analogia direta com o útero gravídico: hipertrofia durante a gravidez → involui após o parto. O detrusor pode regredir após descompressão.',
+  36:'A adaptação visa manter a homeostase e o funcionamento celular o mais próximo possível do normal, evitando a progressão para lesão franca. É a estratégia de sobrevivência celular entre o estresse e a morte.',
+  37:'Depósito de colesterol em macrófagos xantomizados na periferia corneana, visível pela pele extremamente fina local. Em jovens indica hipercolesterolemia grave (possivelmente familiar) e alto risco cardiovascular precoce.',
+  38:'Calcificação distrófica = depósito em tecido doente ou necrótico, SEM hipercalcemia. A parede aórtica destruída pela aortite sifilítica é tecido doente → o cálcio precipita no dano preexistente. Cálcio sérico normal confirma: não é calcificação metastática.',
+  39:'Figuras de mielina = fragmentos de membrana celular desorganizados, formados pela desestruturação da bicamada lipídica durante a lesão celular avançada. Indicam que a lesão membranar já está estabelecida.',
+  40:'Degeneração hidrópica: vacúolos múltiplos e pequenos de água, sem deslocamento expressivo do núcleo. Esteatose macrovacuolar: vacúolo único grande de triglicérides que empurra o núcleo para a periferia (aspecto de anel de sinete).',
+  41:'I, II e III corretas. Hipertrofia e hiperplasia coexistem no útero gravídico (estimuladas por hormônios gestacionais). A involução pós-parto confirma a reversibilidade da hipertrofia fisiológica quando o estímulo cessa.',
+  42:'LDL alto → fagocitose por macrófago → xantomização → interleucinas → tecido fibrótico → placa → calcificação distrófica → capa fibrosa afeia → ruptura → trombo → infarto. A cadeia completa desde o LDL até o evento agudo.',
+  43:'Múltiplos mecanismos coexistentes: atrofia por desuso (músculos sem carga mecânica), por redução do aporte sanguíneo (inatividade reduz fluxo), e/ou nutricional (caquexia). A imobilização aciona vários mecanismos simultâneos.',
+  44:'NAD e FAD captam hidrogênios no ciclo de Krebs (formando NADH e FADH2) → os liberam para os citocromos da membrana interna mitocondrial → fluxo de prótons cria gradiente → gradiente aciona a ATPase → síntese de ATP.',
+  45:'Crises hipertensivas causam lesão mecânica do endotélio vascular → exposição do subendotélio trombogênico → ativação plaquetária → trombo sobre a lesão ou placa preexistente → oclusão aguda → isquemia.',
+  46:'O estímulo inflamatório crônico da placa recruta células musculares lisas para a íntima; essas células proliferam por hiperplasia e sintetizam colágeno, formando a capa fibrosa. Sem elas, a placa não teria capa protetora.',
+  47:'A pele da pálpebra é extremamente fina, tornando visíveis a olho nu os depósitos de macrófagos xantomizados. O mesmo processo de xantomatose ocorre em outros locais (vasos, tendões), mas não é visível pela espessura da pele.',
+  48:'Degeneração hidrópica dos túbulos proximais (hipóxia → queda de ATP → falha da bomba → acúmulo de água), reversível com reperfusão. Torna-se irreversível com ruptura de lisossomos e mitocôndrias → necrose tubular aguda.',
+  49:'Metaplasia: substituição de tipo celular maduro por outro maduro — ambos diferenciados, é adaptação. Displasia: perda da diferenciação normal com atipias — não é adaptação, é lesão precursora de neoplasia. Diferença fundamental para oncologia.',
+  50:'I, II e III corretas. (I) Cadeia da aterosclerose correta. (II) Cascata isquêmica completa e correta — incluindo a janela de reversibilidade pré-ruptura de organelas. (III) Fibrose + hipertrofia compensatória são consequências corretas.'
+};
+
+var STATE = {};
+var hits = 0, done = 0;
+
+function sel(n, L) {
+  if (STATE[n] !== undefined) return;
+  var opts = document.querySelectorAll('#o' + n + ' .opt');
+  opts.forEach(function(o){ o.classList.remove('selected'); });
+  var idx = ['a','b','c','d'].indexOf(L);
+  if (idx >= 0) opts[idx].classList.add('selected');
+  STATE[n] = L;
+}
+
+function chk(n) {
+  var btn = document.getElementById('b' + n);
+  if (!btn || btn.disabled) return;
+  var chosen = STATE[n];
+  if (!chosen) return;
+  var cor = ANS[n];
+  btn.disabled = true;
+  done++;
+  document.getElementById('tt').textContent = done;
+  var opts = document.querySelectorAll('#o' + n + ' .opt');
+  var L = ['a','b','c','d'];
+  opts.forEach(function(o, i){
+    o.style.cursor = 'default';
+    o.onclick = null;
+    if (L[i] === cor) o.classList.add('correct');
+    else if (L[i] === chosen && chosen !== cor) o.classList.add('wrong');
+  });
+  var fb = document.getElementById('f' + n);
+  var exp = EXP[n] || '';
+  if (chosen === cor) {
+    hits++;
+    document.getElementById('sc').textContent = hits;
+    fb.className = 'fb fc show';
+    fb.textContent = '✓ Correto. ' + exp;
+  } else {
+    fb.className = 'fb fw show';
+    fb.textContent = '✗ Incorreto. Gabarito: ' + cor.toUpperCase() + '. ' + exp;
+  }
+  document.getElementById('prog').style.width = Math.round((done / 50) * 100) + '%';
+}
+
+function tog(btn) {
+  var box = btn.nextElementSibling;
+  box.classList.toggle('show');
+  btn.textContent = box.classList.contains('show') ? 'Ocultar gabarito' : 'Ver gabarito orientador';
+}
+
+function show(w, el) {
+  document.querySelectorAll('.nb').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+  var o = document.getElementById('so'), d = document.getElementById('sd');
+  if (w === 'all') { o.style.display = 'block'; d.style.display = 'block'; }
+  if (w === 'obj') { o.style.display = 'block'; d.style.display = 'none'; }
+  if (w === 'dis') { o.style.display = 'none';  d.style.display = 'block'; }
+}
+</script>
+</body>
+</html>
